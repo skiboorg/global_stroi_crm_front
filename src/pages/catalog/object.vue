@@ -6,13 +6,21 @@
         <p class="no-margin text-h6 text-bold">Объект ID:{{object.id}} - {{object.name}}</p>
 
       </div>
-      <p class="no-margin"><span class="text-bold ">Адрес </span>{{object.address}}</p>
-      <p class="no-margin"><span class="text-bold ">Подрядчик </span> {{object.subworker?.fio}}</p>
-      <p class="no-margin" ><span class="text-bold ">Сумма договора </span>{{$filters.formatPrice(object.total)}} руб</p>
-      <p class="no-margin"><span class="text-bold ">Сумма аванса </span>{{$filters.formatPrice(object.avans)}} руб</p>
-      <p class="no-margin"><span class="text-bold ">Выполнено работ </span>{{object.procent_done}} %</p>
-      <p class="no-margin"><span class="text-bold ">Сумма к оплате </span>{{$filters.formatPrice(object.to_pay)}} руб</p>
-      <p class="q-mb-md"><span class="text-bold ">Остаток оплаты </span>{{$filters.formatPrice(object.pay_ostatok)}} руб</p>
+      <table class="info-table">
+        <tr><td><span class="text-bold ">Адрес </span></td><td>{{object.address}}</td></tr>
+        <tr><td><span class="text-bold ">Подрядчик </span></td><td>{{object.subworker?.fio}}</td></tr>
+        <tr><td><span class="text-bold ">Сумма договора </span></td><td>{{$filters.formatPrice(object.total)}} руб</td></tr>
+        <tr><td><span class="text-bold ">Сумма аванса </span></td><td>{{$filters.formatPrice(object.avans)}} руб</td></tr>
+        <tr><td><span class="text-bold ">Выполнено работ </span></td><td>{{object.procent_done}} %</td></tr>
+        <tr><td><span class="text-bold ">Сумма к оплате </span></td><td>{{$filters.formatPrice(object.to_pay)}} руб</td></tr>
+      </table>
+<!--      <p class="no-margin"><span class="text-bold ">Адрес </span>{{object.address}}</p>-->
+<!--      <p class="no-margin"><span class="text-bold ">Подрядчик </span> {{object.subworker?.fio}}</p>-->
+<!--      <p class="no-margin" ><span class="text-bold ">Сумма договора </span>{{$filters.formatPrice(object.total)}} руб</p>-->
+<!--      <p class="no-margin"><span class="text-bold ">Сумма аванса </span>{{$filters.formatPrice(object.avans)}} руб</p>-->
+<!--      <p class="no-margin"><span class="text-bold ">Выполнено работ </span>{{object.procent_done}} %</p>-->
+<!--      <p class="no-margin"><span class="text-bold ">Сумма к оплате </span>{{$filters.formatPrice(object.to_pay)}} руб</p>-->
+<!--      <p class="q-mb-md"><span class="text-bold ">Остаток оплаты </span>{{$filters.formatPrice(object.pay_ostatok)}} руб</p>-->
     </div>
     <div class="q-gutter-md q-mb-md">
       <EditButton v-if="object.is_items_added && object.items?.length>0 && !date_added" class="q-mb-md" label="Редактировать таблицу" color="warning" @click="can_edit = true"/>
@@ -257,6 +265,17 @@ const addReport = () => {
 <style lang="sass">
 .table-wrapper
   overflow-x: auto
+.info-table
+  border: 1px solid black
+  border-collapse: collapse
+  width: 30%
+  td
+    border: 1px solid black
+    border-collapse: collapse
+    padding: 5px
+@media (max-width: 990px)
+  .info-table
+    width: 100%
 .table
   border: 1px solid black
   border-collapse: collapse

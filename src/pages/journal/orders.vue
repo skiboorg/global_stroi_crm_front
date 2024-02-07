@@ -77,7 +77,7 @@
           <q-input outlined dense  label="Наименование документа" v-model="newItem.name" lazy-rules
                    :rules="[ val => val !== null && val !== ''  || 'Это обязательное поле']"/>
           <DateInput dense  class="q-mb-md" v-model="newItem.date" label="Дата издания" @selected="dateSelected"/>
-          <q-input class="q-mb-md" outlined dense  label="Ответственное лицо за исполнение" type="number" v-model="newItem.responsible_fio" />
+          <q-input class="q-mb-md" outlined dense  label="Ответственное лицо за исполнение"  v-model="newItem.responsible_fio" />
           <DateInput dense  class="q-mb-md" v-model="newItem.sign_date" label="Дата ознакомления с приказом" @selected="singDateSelected"/>
 
         </q-card-section>
