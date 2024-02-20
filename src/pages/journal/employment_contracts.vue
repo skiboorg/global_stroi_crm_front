@@ -78,7 +78,8 @@
           <q-input class="q-mb-md" outlined dense  label="Ф.И.О сотрудника" v-model="newItem.worker_fio" />
           <q-select  outlined dense  map-options emit-value behavior="menu" class="q-mb-md" v-model="newItem.period"
                      :options="period_types" label="Срок действия"/>
-
+          <p v-if="newItem.file"><a :href="newItem.file" target="_blank">Загруженный ранее файл</a></p>
+          <q-file class="q-mb-md"  outlined dense  label="Файл" v-model="file" />
 
         </q-card-section>
         <q-card-actions align="center">
@@ -110,6 +111,7 @@ const columns = [
   { name: 'date', align: 'left',  label: 'Дата заключения', field: row => new Date(row.date).toLocaleDateString() ,  sortable: true},
   { name: 'worker_fio', align: 'left',  label: 'Ф.И.О сотрудника', field: row => row.worker_fio ,  sortable: true},
   { name: 'period', align: 'left',  label: 'Срок действия', field: row => row.period ,  sortable: true},
+  { name: 'file', align: 'left',  label: 'Файл', field: row => row.file ? `<a href="${row.file}" target="_blank">Открыть</a>` : 'Нет' ,  sortable: true},
 ]
 
 const itemModal = ref(false)
@@ -130,6 +132,7 @@ const newItem = ref({
   date:null,
   worker_fio:null,
   period:null,
+  file:null
 })
 
 const initialPagination= {
@@ -180,11 +183,10 @@ const showModal = (item) => {
   }else {
     newItem.value = {
       id:null,
-      name:null,
-      inner_id:null,
       date:null,
-      sign_date:null,
-      responsible_fio:null,
+      worker_fio:null,
+      period:null,
+      file:null
     }
   }
   itemModal.value = true
@@ -194,21 +196,40 @@ const convertDate = (date) => {
   const splitted_date = date.split('.')
   return `${splitted_date[2]}-${splitted_date[1]}-${splitted_date[0]}`
 }
-const formSubmit = async () => {
-  if (newItem.value.date)  newItem.value.date = convertDate(newItem.value.date)
 
+const formSubmit = async () => {
+  let formData = new FormData()
+  delete newItem.value.file
+  for (let [k,v] of Object.entries(newItem.value)){
+    formData.append(k,JSON.stringify(v))
+  }
+  if (file.value){
+    formData.append('file',file.value)
+  }
+  let resp
   if (newItem.value.id){
-    const response = await api.patch(`/api/catalog/employment_contract/${newItem.value.id}`,newItem.value)
-    useNotify('positive','Данные обновлены')
+    resp = await api({
+      method: "put",
+      url: `/api/catalog/employment_contract/${newItem.value.id}`,
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+  }else {
+    resp = await api({
+      method: "post",
+      url: "/api/catalog/employment_contract",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
   }
-  else {
-    const response = await api.post('/api/catalog/employment_contract',newItem.value)
-    useNotify('positive','Создан')
-  }
+  useNotify(resp.data.success ? 'positive' : 'negative',resp.data.message)
+
   await getPageData()
   itemModal.value = false
+  file.value = null
 
 }
+
 const dateSelected = (val)=>{
   newItem.value.date=new Date(val).toLocaleDateString()
 }

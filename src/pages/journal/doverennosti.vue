@@ -81,6 +81,8 @@
           <DateInput dense  class="q-mb-md" v-model="newItem.start_date" label="Дата начала" @selected="startDateSelected"/>
           <DateInput dense  class="q-mb-md" v-model="newItem.end_date" label="Дата окончания" @selected="endDateSelected"/>
          <q-input class="q-mb-md" outlined dense  label="Кол-во экземпляров" type="number" v-model="newItem.amount" />
+          <p v-if="newItem.file"><a :href="newItem.file" target="_blank">Загруженный ранее файл</a></p>
+          <q-file class="q-mb-md"  outlined dense  label="Файл" v-model="file" />
         </q-card-section>
         <q-card-actions align="center">
           <q-btn label="Сохранить" type="submit" no-caps color="positive"/>
@@ -113,6 +115,7 @@ const columns = [
   { name: 'start_date', align: 'left',  label: 'Дата начала', field: row => new Date(row.start_date).toLocaleDateString() ,  sortable: true},
   { name: 'end_date', align: 'left',  label: 'Дата окончания', field: row => new Date(row.end_date).toLocaleDateString() ,  sortable: true},
   { name: 'amount', align: 'left',  label: 'Кол-во экземпляров', field: row => row.amount ,  sortable: true},
+  { name: 'file', align: 'left',  label: 'Файл', field: row => row.file ? `<a href="${row.file}" target="_blank">Открыть</a>` : 'Нет' ,  sortable: true},
 
 ]
 
@@ -135,6 +138,7 @@ const newItem = ref({
   start_date:null,
   end_date:null,
   amount:null,
+  file:null
 })
 
 const initialPagination= {
@@ -201,22 +205,40 @@ const convertDate = (date) => {
   const splitted_date = date.split('.')
   return `${splitted_date[2]}-${splitted_date[1]}-${splitted_date[0]}`
 }
-const formSubmit = async () => {
-  if (newItem.value.start_date)  newItem.value.start_date = convertDate(newItem.value.start_date)
-  if (newItem.value.end_date)  newItem.value.end_date = convertDate(newItem.value.end_date)
 
+const formSubmit = async () => {
+  let formData = new FormData()
+  delete newItem.value.file
+  for (let [k,v] of Object.entries(newItem.value)){
+    formData.append(k,JSON.stringify(v))
+  }
+  if (file.value){
+    formData.append('file',file.value)
+  }
+  let resp
   if (newItem.value.id){
-    const response = await api.patch(`/api/catalog/doverennost/${newItem.value.id}`,newItem.value)
-    useNotify('positive','Данные обновлены')
+    resp = await api({
+      method: "put",
+      url: `/api/catalog/doverennost/${newItem.value.id}`,
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+  }else {
+    resp = await api({
+      method: "post",
+      url: "/api/catalog/doverennost",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
   }
-  else {
-    const response = await api.post('/api/catalog/doverennost',newItem.value)
-    useNotify('positive','Создан')
-  }
+  useNotify(resp.data.success ? 'positive' : 'negative',resp.data.message)
+
   await getPageData()
   itemModal.value = false
+  file.value = null
 
 }
+
 const startDateSelected = (val)=>{
   newItem.value.start_date=new Date(val).toLocaleDateString()
 }

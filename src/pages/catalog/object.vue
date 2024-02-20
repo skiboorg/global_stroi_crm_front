@@ -6,7 +6,7 @@
         <p class="no-margin text-h6 text-bold">Объект ID:{{object.id}} - {{object.name}}</p>
 
       </div>
-      <table class="info-table">
+      <table class="info-table q-mb-lg">
         <tr><td><span class="text-bold ">Адрес </span></td><td>{{object.address}}</td></tr>
         <tr><td><span class="text-bold ">Подрядчик </span></td><td>{{object.subworker?.fio}}</td></tr>
         <tr><td><span class="text-bold ">Сумма договора </span></td><td>{{$filters.formatPrice(object.total)}} руб</td></tr>
@@ -28,8 +28,9 @@
     </div>
 
 
-
+    <p class="text-h6 text-bold">Расчет стоимости</p>
     <div class="flex items-start no-wrap">
+
       <table class="table q-mb-md" >
         <tr style="height: 118px" class="table-head-row">
           <td >Наименование товаров</td>
@@ -81,7 +82,7 @@
         <tr class="table-subhead-row">
               <td>План</td>
               <td>Факт</td>
-              <td>% вып. работы</td>
+<!--              <td>% вып. работы</td>-->
               <td>Сумма к оплате</td>
         </tr>
 <!--        :readonly="!report.is_new "-->
@@ -113,7 +114,7 @@
                      dense standout v-model="report_item.fact_amount"/>
           </td>
           <td v-else> {{report_item.fact_amount}}</td>
-          <td>{{report_item.done_work_percent}}</td>
+<!--          <td>{{report_item.done_work_percent}}</td>-->
 <!--            <q-input type="number" @focus="$event.target.select()" :readonly="!report.is_new" dense standout-->
 <!--                       :borderless=" !report.is_new" v-model="report_item.done_work_percent"/>-->
           <td>{{report_item.to_pay}}</td>
@@ -263,54 +264,5 @@ const addReport = () => {
 }
 </script>
 <style lang="sass">
-.table-wrapper
-  overflow-x: auto
-.info-table
-  border: 1px solid black
-  border-collapse: collapse
-  width: 30%
-  td
-    border: 1px solid black
-    border-collapse: collapse
-    padding: 5px
-@media (max-width: 990px)
-  .info-table
-    width: 100%
-.table
-  border: 1px solid black
-  border-collapse: collapse
-.table-subhead-row
-  td
-    width: 50px
-    border: 1px solid black
-    border-collapse: collapse
-    text-align: center
-    font-weight: bold
-    padding: 8px
-
-.table-head-row
-
-  td
-    width: 50px
-    border: 1px solid black
-    border-collapse: collapse
-    text-align: center
-    font-weight: bold
-    padding: 8px
-    &:first-child
-      width: 250px
-.table-row
-  td
-    border: 1px solid black
-    border-collapse: collapse
-    text-align: center
-    &:first-child
-      text-align: left
-.can_edit
-
-
-  & .table-row, & .table-subhead-row, & .table-head-row
-    td
-      border: 1px solid red
 
 </style>
