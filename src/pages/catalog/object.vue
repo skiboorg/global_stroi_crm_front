@@ -6,6 +6,7 @@
         <p class="no-margin text-h6 text-bold">Объект ID:{{object.id}} - {{object.name}}</p>
 
       </div>
+      <p class="text-h6 text-bold">Общие данные</p>
       <table class="info-table q-mb-lg">
         <tr><td><span class="text-bold ">Адрес </span></td><td>{{object.address}}</td></tr>
         <tr><td><span class="text-bold ">Подрядчик </span></td><td>{{object.subworker?.fio}}</td></tr>
@@ -65,7 +66,8 @@
 
         </tr>
         <tr class="table-row">
-          <td colspan="5"></td>
+          <td colspan="4" ></td>
+          <td  class="text-bold">Итого</td>
           <td class=" text-bold">{{object.total_items_price}}</td>
 
 
@@ -172,7 +174,7 @@ const new_date = ref({
 const route = useRoute()
 const can_edit = ref(false)
 const units = [
-  'м.','шт'
+  'м.','шт','уп.','усл.'
 ]
 onBeforeMount(async ()=>{
   await getPageData()
