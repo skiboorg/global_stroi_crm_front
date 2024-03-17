@@ -4,7 +4,7 @@
 
       <p class="no-margin text-h6 text-bold">Формы показателей</p>
       <q-space/>
-      <AddButton icon="add" color="primary" no-caps unelevated @click="test" label="Тест" />
+
       <AddButton icon="add" color="primary" no-caps unelevated @click="$router.push('/form/stress_form')" label="Добавить форму" />
     </div>
     <q-table
@@ -99,9 +99,7 @@ const getForms = async () => {
   is_loading.value = !is_loading.value
 }
 
-const test = async () => {
-  await api(`/api/form/test`)
-}
+
 
 </script>
 

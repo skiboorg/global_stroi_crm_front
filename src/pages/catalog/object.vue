@@ -30,7 +30,7 @@
 
 
     <p class="text-h6 text-bold">Расчет стоимости</p>
-    <div class="flex items-start no-wrap">
+    <div class="flex items-start no-wrap" style="gap:8px">
 
       <table class="table q-mb-md" >
         <tr style="height: 118px" class="table-head-row">
@@ -47,18 +47,22 @@
           <td><q-input  :readonly="!can_edit && !item.is_new" dense
                         standout
                         :borderless="!can_edit && !item.is_new"
+                        class="input-no-center"
                         v-model="item.name"/>
 
           </td>
           <td><q-select :readonly="!can_edit && !item.is_new" dense
                         :borderless="!can_edit && !item.is_new"
+                        class="text-center"
                         standout
                         :options="units" v-model="item.unit"/> </td>
           <td><q-input @focus="$event.target.select()" type="number" :readonly="!can_edit && !item.is_new" dense standout
+                       class="text-center"
                        @change="item.total_amount ? null : item.total_amount=0"
                        :borderless="!can_edit && !item.is_new" v-model="item.total_amount"/></td>
-          <td>{{item.today_ostatok}}</td>
+          <td class="text-center">{{item.today_ostatok}}</td>
           <td><q-input @focus="$event.target.select()" type="number" :readonly="!can_edit && !item.is_new" dense standout
+                       class="text-center"
                        @change="item.price_per_unit ? null : item.price_per_unit=0"
                        :borderless="!can_edit && !item.is_new" v-model="item.price_per_unit"/></td>
           <td>{{item.total_price}}</td>
@@ -75,7 +79,7 @@
 
       </table>
       <div class="table-wrapper">
-        <div class="flex items-start no-wrap">
+        <div class="flex items-start no-wrap " style="gap:8px">
       <table class="table"  v-for="(report,report_index) in dates">
         <tr class="table-head-row">
                     <td colspan="4" >{{report.is_new ? report.date : new Date(report.date).toLocaleDateString()}} </td>
@@ -93,7 +97,8 @@
 
         <tr class="table-row" v-for="(report_item, report_item_index) in report.items" :key="report_item_index">
 
-          <td><q-input type="number"
+          <td class="text-center"><q-input type="number"
+                       class="text-center"
                        @focus="$event.target.select()"
                        @change="report_item.plan_amount > items.find(x=>x.id===report_item.item).today_ostatok
                        ?
@@ -107,7 +112,7 @@
            new Date().toLocaleTimeString() >= '10:00:00'
 ">
 
-            <q-input type="number" @focus="$event.target.select()"
+            <q-input class="text-center" type="number" @focus="$event.target.select()"
                      @change="report_item.fact_amount > items.find(x=>x.id===report_item.item).today_ostatok
                        ?
                        report_item.fact_amount = items.find(x=>x.id===report_item.item).today_ostatok
