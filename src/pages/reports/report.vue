@@ -148,6 +148,8 @@ const route = useRoute()
 const data = ref([])
 const query_string = ref('')
 
+
+
 const columns = [
   { name: 'id', align: 'left',  label: 'ID', field: row => row.id ,  sortable: true},
   { name: 'created_at', align: 'left',  label: 'Дата', field: row => new Date (row.created_at).toLocaleDateString(),  sortable: true},
@@ -159,10 +161,16 @@ const columns = [
 ]
 
 onBeforeMount (async ()=>{
-  await getData()
+  let date = new Date()
+  date.setDate(date.getDate() - 1)
+  filters.value.created_at_gte = date.toLocaleDateString().split('.').reverse().join('-')
+  await filterAction('apply')
+  //await getData()
 })
 
 const getData = async () => {
+  console.log('query_string',query_string.value)
+  console.log('filters',filters.value)
   const resp = await api(`/api/report/by_user?user_id=${route.params.user_id}&${query_string.value}`)
   console.log(resp.data)
   data.value = resp.data

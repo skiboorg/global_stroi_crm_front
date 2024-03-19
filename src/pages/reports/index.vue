@@ -77,9 +77,9 @@ import {useCommonStore} from "stores/common_data"
 const commonStore = useCommonStore()
 
 const columns = [
+  { name: 'firstname', align: 'left',  label: 'ФИО', field: row => row.fio ,  sortable: true},
   { name: 'username', align: 'left',  label: 'Логин', field: row => row.username ,  sortable: true},
   { name: 'role', align: 'left',  label: 'Роль', field: row => row.role?.name ,  sortable: true},
-  { name: 'firstname', align: 'left',  label: 'ФИО', field: row => row.fio ,  sortable: true},
   { name: 'position', align: 'left',  label: 'Телефон', field:row=>row.phone ,  sortable: true},
   //{ name: 'updated_at', align: 'left',  label: 'Обновлен', field: row =>new Date(row.updated_at).toLocaleString()   ,  sortable: true},
 ]
