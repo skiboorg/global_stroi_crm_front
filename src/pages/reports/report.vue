@@ -71,6 +71,7 @@
       :rows="data.tasks"
       :columns="columns"
       row-key="id"
+      :pagination="initialPagination"
       table-header-class="table-header"
 
     >
@@ -126,7 +127,9 @@
       </template>
     </q-table>
     <p v-else >Назначеных задач не было </p>
-
+    <p class=" text-h6 text-bold">Финансовые показатели</p>
+    <p>Всего заработано: {{data.total_income}}</p>
+    <p>Всего заработано: {{data.total_outcome}}</p>
   </q-page>
 </template>
 <script setup>
@@ -148,7 +151,13 @@ const route = useRoute()
 const data = ref([])
 const query_string = ref('')
 
-
+const initialPagination= {
+  sortBy: 'desc',
+  descending: false,
+  page: 1,
+  rowsPerPage: 50
+  // rowsNumber: xx if getting data from a server
+}
 
 const columns = [
   { name: 'id', align: 'left',  label: 'ID', field: row => row.id ,  sortable: true},

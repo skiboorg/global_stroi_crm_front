@@ -157,6 +157,10 @@ const userSelected = async () => {
 }
 
 onBeforeMount(async ()=>{
+  let date = new Date()
+  date.setDate(date.getDate() - 1)
+  filters.value.created_at_gte = date.toLocaleDateString().split('.').reverse().join('-')
+  console.log('ffff',filters.value)
   await getData()
   users.value = await commonStore.getUsers()
 })
@@ -164,6 +168,9 @@ onBeforeMount(async ()=>{
 const getData = async () => {
   const resp =await api(`/api/report/marks?created_at_gte=${filters.value.created_at_gte}&created_at_lte=${filters.value.created_at_lte}`)
     rows.value =  resp.data
+  if (filters.value.user__id){
+    rows.value = rows.value.filter(x=>x.user.id === filters.value.user__id)
+  }
 }
 
 const filterAction = async () => {
