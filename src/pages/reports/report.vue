@@ -45,26 +45,22 @@
     </div>
 
 
-    <div v-if="data.form_result" class="q-mb-lg">
-      <p class=" text-h6 text-bold">Средняя оценка за период {{data.form_rate}}</p>
-      <table  class="info-table full-width">
-        <tr>
-          <td class="text-bold">№</td>
-          <td class="text-bold">Вопрос</td>
-          <td class="text-bold">План</td>
-          <td class="text-bold">Факт</td>
-          <td class="text-bold">%выполнения</td>
-        </tr>
-        <tr v-for="(row,index) in data.form_result" :key="index">
-          <td>{{index + 1}}</td>
-          <td>{{ row.label }}</td>
-          <td>{{ row.plan_amount }}</td>
-          <td>{{ row.fact_amount }}</td>
-          <td>{{ row.percent_done }}</td>
-        </tr>
-      </table>
-    </div>
-    <p class=" text-h6 text-bold">Задачи за период</p>
+    <p class=" text-h6 text-bold">Количество усилий {{data.login_mark}}</p>
+    <table class="info-table full-width q-mb-lg">
+      <tr>
+        <td style="width: 50%" class="text-bold">Количество авторизаций в системе, штук</td>
+        <td style="width: 50%">{{data.total_logins}}</td>
+      </tr>
+      <tr>
+        <td style="width: 50%" class="text-bold">Общее время в системе, часов</td>
+        <td style="width: 50%">{{data.total_logins * 2}}</td>
+      </tr>
+      <tr>
+        <td style="width: 50%" class="text-bold">Оценка</td>
+        <td style="width: 50%">{{data.login_mark}}</td>
+      </tr>
+    </table>
+    <p class=" text-h6 text-bold">Качество усилий {{taskMiddle}}</p>
     <q-table
       v-if="data.tasks"
       flat
@@ -126,10 +122,39 @@
         </q-tr>
       </template>
     </q-table>
+    <div v-if="data.form_result" class="q-mb-lg">
+      <p class=" text-h6 text-bold">Операционные показатели {{data.form_rate}}</p>
+      <table  class="info-table full-width">
+        <tr>
+          <td class="text-bold">№</td>
+          <td class="text-bold">Вопрос</td>
+          <td class="text-bold">План</td>
+          <td class="text-bold">Факт</td>
+          <td class="text-bold">%выполнения</td>
+        </tr>
+        <tr v-for="(row,index) in data.form_result" :key="index">
+          <td>{{index + 1}}</td>
+          <td>{{ row.label }}</td>
+          <td>{{ row.plan_amount }}</td>
+          <td>{{ row.fact_amount }}</td>
+          <td>{{ row.percent_done }}</td>
+        </tr>
+      </table>
+    </div>
+
     <p v-else >Назначеных задач не было </p>
     <p class=" text-h6 text-bold">Финансовые показатели</p>
-    <p>Всего заработано: {{data.total_income}}</p>
-    <p>Всего заработано: {{data.total_outcome}}</p>
+    <table class="info-table full-width q-mb-lg">
+      <tr>
+        <td style="width: 50%" class="text-bold">Заработная плата сотрудника на руки, руб</td>
+        <td style="width: 50%">{{data.total_income}}</td>
+      </tr>
+      <tr>
+        <td style="width: 50%" class="text-bold">Расходы организации на сотрудника, руб</td>
+        <td style="width: 50%">{{data.total_outcome}}</td>
+      </tr>
+    </table>
+
   </q-page>
 </template>
 <script setup>
@@ -159,6 +184,8 @@ const initialPagination= {
   // rowsNumber: xx if getting data from a server
 }
 
+const taskMiddle = ref(0)
+
 const columns = [
   { name: 'id', align: 'left',  label: 'ID', field: row => row.id ,  sortable: true},
   { name: 'created_at', align: 'left',  label: 'Дата', field: row => new Date (row.created_at).toLocaleDateString(),  sortable: true},
@@ -173,17 +200,32 @@ onBeforeMount (async ()=>{
   let date = new Date()
   date.setDate(date.getDate() - 1)
   filters.value.created_at_gte = date.toLocaleDateString().split('.').reverse().join('-')
+  filters.value.created_at_lte = date.toLocaleDateString().split('.').reverse().join('-')
   await filterAction('apply')
   //await getData()
+
 })
+
 
 const getData = async () => {
   console.log('query_string',query_string.value)
   console.log('filters',filters.value)
   const resp = await api(`/api/report/by_user?user_id=${route.params.user_id}&${query_string.value}`)
-  console.log(resp.data)
+  console.log('data',resp.data.tasks)
   data.value = resp.data
+  let temp = 0
+  let count = 0
+  for (let i of resp.data?.tasks){
+
+    if (i.task_value){
+      temp += i.task_value
+      count += 1
+    }
+  }
+  taskMiddle.value = parseFloat(temp/count).toFixed(0)
+
 }
+
 
 const filterAction = async (action) => {
   query_string.value = ``

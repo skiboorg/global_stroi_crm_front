@@ -160,7 +160,7 @@ onBeforeMount(async ()=>{
   let date = new Date()
   date.setDate(date.getDate() - 1)
   filters.value.created_at_gte = date.toLocaleDateString().split('.').reverse().join('-')
-  console.log('ffff',filters.value)
+  filters.value.created_at_lte = date.toLocaleDateString().split('.').reverse().join('-')
   await getData()
   users.value = await commonStore.getUsers()
 })
