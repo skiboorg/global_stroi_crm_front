@@ -60,7 +60,8 @@
         <td style="width: 50%">{{data.login_mark}}</td>
       </tr>
     </table>
-    <p class=" text-h6 text-bold">Качество усилий {{taskMiddle}}</p>
+
+    <p class=" text-h6 text-bold">Качество усилий <span v-if="data.tasks.length>0">{{taskMiddle}}</span> </p>
     <q-table
       v-if="data.tasks"
       flat
@@ -146,12 +147,12 @@
     <p class=" text-h6 text-bold">Финансовые показатели</p>
     <table class="info-table full-width q-mb-lg">
       <tr>
-        <td style="width: 50%" class="text-bold">Заработная плата сотрудника на руки, руб</td>
-        <td style="width: 50%">{{data.total_income}}</td>
+        <td style="width: 50%" class="text-bold">Заработная плата сотрудника на руки , руб</td>
+        <td style="width: 50%">{{data.period_income}}</td>
       </tr>
       <tr>
         <td style="width: 50%" class="text-bold">Расходы организации на сотрудника, руб</td>
-        <td style="width: 50%">{{data.total_outcome}}</td>
+        <td style="width: 50%">{{data.period_outcome}}</td>
       </tr>
     </table>
 
