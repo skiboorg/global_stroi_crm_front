@@ -119,7 +119,7 @@ const columns = [
   { name: 'middle_forms_mark', align: 'left',  label: 'Операционные результаты', field: row => row.middle_forms_mark ,  sortable: true},
 
 
-  { name: 'total_mark', align: 'left',  label: 'Общая оценка за период времени', field:row=>row.total_mark ,  sortable: true},
+  { name: 'total_mark', align: 'left',  label: 'Общая оценка', field:row=>row.total_mark ,  sortable: true},
   //{ name: 'updated_at', align: 'left',  label: 'Обновлен', field: row =>new Date(row.updated_at).toLocaleString()   ,  sortable: true},
 ]
 

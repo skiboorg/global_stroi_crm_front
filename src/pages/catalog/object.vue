@@ -30,20 +30,22 @@
 
 
     <p class="text-h6 text-bold">Расчет стоимости</p>
-    <div class="flex items-start no-wrap" style="gap:8px">
+    <div class="object-tables-grid items-start no-wrap" style="gap:8px">
 
       <table class="table q-mb-md" >
         <tr style="height: 118px" class="table-head-row">
-          <td >Наименование товаров</td>
+          <td style="width: 0px">№</td>
+          <td >Наименование</td>
           <td >Ед. изм</td>
-          <td >Общее кол-во</td>
-          <td >Остаток на сегодня</td>
-          <td >Цена едн.работы</td>
+          <td >Кол-во</td>
+          <td >Текущий остаток</td>
+          <td >Цена</td>
           <td >Общая стоимость</td>
           <td v-if="object.dates?.length === 0"></td>
         </tr>
 
         <tr class="table-row" v-for="(item,item_index) in items" :key="item_index">
+          <td class="text-center">{{item_index+1}}</td>
           <td><q-input  :readonly="!can_edit && !item.is_new" dense
                         standout
                         :borderless="!can_edit && !item.is_new"
@@ -79,7 +81,7 @@
 
       </table>
       <div class="table-wrapper">
-        <div class="flex items-start no-wrap " style="gap:8px">
+        <div class="object-subtables-grid items-start no-wrap " style="gap:8px">
       <table class="table"  v-for="(report,report_index) in dates">
         <tr class="table-head-row">
                     <td colspan="4" >{{report.is_new ? report.date : new Date(report.date).toLocaleDateString()}} </td>
@@ -120,7 +122,7 @@
                        null"
                      dense standout v-model="report_item.fact_amount"/>
           </td>
-          <td v-else> {{report_item.fact_amount}}</td>
+          <td v-else style="text-align: center !important;"> {{report_item.fact_amount}}</td>
 <!--          <td>{{report_item.done_work_percent}}</td>-->
 <!--            <q-input type="number" @focus="$event.target.select()" :readonly="!report.is_new" dense standout-->
 <!--                       :borderless=" !report.is_new" v-model="report_item.done_work_percent"/>-->

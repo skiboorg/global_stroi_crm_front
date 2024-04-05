@@ -61,7 +61,7 @@
       </tr>
     </table>
 
-    <p class=" text-h6 text-bold">Качество усилий <span v-if="data.tasks.length>0">{{taskMiddle}}</span> </p>
+    <p class=" text-h6 text-bold">Качество усилий <span v-if="taskMiddle>0">{{taskMiddle}}</span> </p>
     <q-table
       v-if="data.tasks"
       flat
@@ -131,7 +131,7 @@
           <td class="text-bold">Вопрос</td>
           <td class="text-bold">План</td>
           <td class="text-bold">Факт</td>
-          <td class="text-bold">%выполнения</td>
+          <td class="text-bold">в%</td>
         </tr>
         <tr v-for="(row,index) in data.form_result" :key="index">
           <td>{{index + 1}}</td>
@@ -147,12 +147,12 @@
     <p class=" text-h6 text-bold">Финансовые показатели</p>
     <table class="info-table full-width q-mb-lg">
       <tr>
-        <td style="width: 50%" class="text-bold">Заработная плата сотрудника на руки , руб</td>
-        <td style="width: 50%">{{data.period_income}}</td>
+        <td style="width: 50%" >Заработная плата сотрудника на руки</td>
+        <td style="width: 50%" class="text-bold">{{data.period_income}}</td>
       </tr>
       <tr>
-        <td style="width: 50%" class="text-bold">Расходы организации на сотрудника, руб</td>
-        <td style="width: 50%">{{data.period_outcome}}</td>
+        <td style="width: 50%" >Расходы организации на сотрудника</td>
+        <td style="width: 50%" class="text-bold">{{data.period_outcome}}</td>
       </tr>
     </table>
 
@@ -223,7 +223,8 @@ const getData = async () => {
       count += 1
     }
   }
-  taskMiddle.value = parseFloat(temp/count).toFixed(0)
+
+  temp > 0 ? taskMiddle.value = parseFloat(temp/count).toFixed(0) : taskMiddle.value=0
 
 }
 

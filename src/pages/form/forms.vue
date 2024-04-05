@@ -5,7 +5,7 @@
       <p class="no-margin text-h6 text-bold">Формы показателей</p>
       <q-space/>
 
-      <AddButton icon="add" color="primary" no-caps unelevated @click="$router.push('/form/stress_form')" label="Добавить форму" />
+      <AddButton icon="add" color="primary" no-caps unelevated @click="$router.push('/form/stress_form')" label="Добавить" />
     </div>
     <q-table
       flat
