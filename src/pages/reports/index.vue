@@ -107,18 +107,20 @@ const userSelected = async () => {
   {
     rows.value = rows.value.filter(x=>x.id===user_filter.value)
   }else {
-    rows.value = await commonStore.getUsers(`q=${query.value.q}&role__id=${query.value.role__id}`)
+    rows.value = await commonStore.getUsers(`q=${query.value.q}&role__id=${query.value.role__id}`,true)
   }
 
 }
 
 onBeforeMount(async ()=>{
   await getUsers()
-  users.value = await commonStore.getUsers()
+  users.value= await commonStore.getUsers(null,true)
+
+
 })
 
 const getUsers = async () => {
-  rows.value = await commonStore.getUsers(`q=${query.value.q}&role__id=${query.value.role__id}`)
+  rows.value = await commonStore.getUsers(`q=${query.value.q}&role__id=${query.value.role__id}`,true)
 }
 
 const filterFn =  (val, update) => {

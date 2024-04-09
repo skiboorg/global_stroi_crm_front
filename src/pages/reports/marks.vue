@@ -162,7 +162,7 @@ onBeforeMount(async ()=>{
   filters.value.created_at_gte = date.toLocaleDateString().split('.').reverse().join('-')
   filters.value.created_at_lte = date.toLocaleDateString().split('.').reverse().join('-')
   await getData()
-  users.value = await commonStore.getUsers()
+  users.value = await commonStore.getUsers(null,true)
 })
 
 const getData = async () => {

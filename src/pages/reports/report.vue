@@ -131,7 +131,7 @@
           <td class="text-bold">Вопрос</td>
           <td class="text-bold">План</td>
           <td class="text-bold">Факт</td>
-          <td class="text-bold">в%</td>
+          <td class="text-bold">В процентах</td>
         </tr>
         <tr v-for="(row,index) in data.form_result" :key="index">
           <td>{{index + 1}}</td>
@@ -166,8 +166,9 @@ import {api} from "boot/axios";
 import {onBeforeMount, ref} from "vue";
 import { useRoute} from "vue-router";
 import {useCommonStore} from "stores/common_data"
+import {useAuthStore} from "stores/auth";
 const commonStore = useCommonStore()
-
+const {user} = useAuthStore()
 const filters = ref({
   user__id:null,
   created_at_gte:null,
@@ -194,7 +195,7 @@ const columns = [
   { name: 'is_done', align: 'left',  label: 'Выполнено', field: row => row.is_done ,  sortable: true},
 
   { name: 'task_value', align: 'left',  label: 'Оценка', field: row => row.task_value ? row.task_value : 'Нет',  sortable: true},
-  { name: 'task_value', align: 'left',  label: 'Комент', field: row => row.user_comment ? row.user_comment : 'Нет',  sortable: true},
+  { name: 'task_value', align: 'left',  label: 'Обратная связь', field: row => row.user_comment ? row.user_comment : 'Нет',  sortable: true},
 ]
 
 onBeforeMount (async ()=>{
@@ -211,7 +212,14 @@ onBeforeMount (async ()=>{
 const getData = async () => {
   console.log('query_string',query_string.value)
   console.log('filters',filters.value)
-  const resp = await api(`/api/report/by_user?user_id=${route.params.user_id}&${query_string.value}`)
+  let user_id
+  if (route.params.user_id === 'own'){
+    user_id = user.id
+  }else {
+    user_id=route.params.user_id
+  }
+
+  const resp = await api(`/api/report/by_user?user_id=${user_id}&${query_string.value}`)
   console.log('data',resp.data.tasks)
   data.value = resp.data
   let temp = 0

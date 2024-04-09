@@ -40,7 +40,7 @@ onBeforeMount(async ()=>{
   // filters.value.dead_line__exact = date.toLocaleDateString().split('.').reverse().join('-')
   // await filterAction('apply')
   // //await getForms()
-  const resp = await commonStore.getUsers()
+  const resp = await commonStore.getUsers(null,true)
   users.value = resp
   await getData()
 
