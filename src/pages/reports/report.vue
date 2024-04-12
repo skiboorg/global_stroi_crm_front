@@ -67,6 +67,7 @@
       flat
       :rows="data.tasks"
       :columns="columns"
+      hide-pagination
       row-key="id"
       :pagination="initialPagination"
       table-header-class="table-header"

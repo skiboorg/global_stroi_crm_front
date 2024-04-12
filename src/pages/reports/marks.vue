@@ -71,6 +71,7 @@
       :rows="rows"
       :columns="columns"
       row-key="name"
+      hide-pagination
       table-header-class="table-header"
       :pagination="initialPagination"
     >
