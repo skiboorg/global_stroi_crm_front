@@ -35,7 +35,7 @@
       <table class="table q-mb-md" >
         <tr style="height: 118px" class="table-head-row">
           <td style="width: 0px">№</td>
-          <td >Наименование</td>
+          <td style="width: 700px">Наименование</td>
           <td >Ед. изм</td>
           <td >Кол-во</td>
           <td >Текущий остаток</td>

@@ -1,6 +1,21 @@
 <template>
   <q-page padding>
-
+    <q-expansion-item
+      expand-separator
+      icon="help"
+      label="Описание раздела"
+      class="q-mb-md"
+    >
+      <q-card>
+        <q-card-section>
+          В отчете сотрудника представлена сводная информация по количеству, качеству усилий, операционным и финансовым результатам. Автоматически система формирует данные по состоянию на вчерашний день. Сотрудник может выбрать любой произвольный период времени начиная с момента первой авторизации в системе.<br><br>
+          Финансовые показатели сотрудника состоят из двух:<br><br>
+          1. Заработная плата сотрудника на руки (начисленная сумма за один день работы сотрудника)<br>
+          2. Расходы организации на сотрудника (начисленная сумма за один день работы сотрудника плюс налоги и страховые взносы)<br><br>
+          Финансовые показатели возможно посмотреть в разрезе минимум 1 (одного) рабочего дня. Для этого необходимо в фильтре изменить дату начала отчета на предыдущий день. Финансовые показатели рассчитываются путем деления заработной платы (расходов организации) в месяц на 22 (двадцать два) рабочих дня. Согласно производственного календаря среднее количество рабочих дней в году составляет 22 (двадцать два) дня.
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
     <div class="flex items-center  q-mb-lg">
       <BackButton/>
       <p class="no-margin text-h6 text-bold">Отчет пользователя {{data.user}}</p>
@@ -191,7 +206,8 @@ const taskMiddle = ref(0)
 
 const columns = [
   { name: 'id', align: 'left',  label: 'ID', field: row => row.id ,  sortable: true},
-  { name: 'created_at', align: 'left',  label: 'Дата', field: row => new Date (row.created_at).toLocaleDateString(),  sortable: true},
+  { name: 'created_at', align: 'left',  label: 'Дата создания', field: row => new Date (row.created_at).toLocaleDateString(),  sortable: true},
+  { name: 'created_at', align: 'left',  label: 'Крайний срок', field: row => new Date (row.dead_line_date).toLocaleDateString(),  sortable: true},
   { name: 'priority', align: 'left',  label: 'Приоритет', field: row => row.priority ,  sortable: true},
   { name: 'is_done', align: 'left',  label: 'Выполнено', field: row => row.is_done ,  sortable: true},
 
