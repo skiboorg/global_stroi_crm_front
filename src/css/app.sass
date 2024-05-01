@@ -1,0 +1,89 @@
+.table-header
+  background: #F3F5FA
+  height: 56px
+  color: #6D6C73
+  border-color: rgba(109, 108, 115, 0) !important
+  font-weight: bold
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button
+  -webkit-appearance: none
+  margin: 0
+
+.input-no-center
+  input
+    text-align: left !important
+
+/* Firefox */
+input[type=number]
+  -moz-appearance: textfield
+
+
+.table-wrapper
+  overflow-x: auto
+  input
+    text-align: center
+.info-table
+  border: 1px solid black
+  border-collapse: collapse
+  width: 50%
+  td
+    border: 1px solid black
+    border-collapse: collapse
+    padding: 5px
+@media (max-width: 990px)
+  .info-table
+    width: 100%
+
+.object-tables-grid
+  display: grid
+  grid-template-columns: 2fr 1fr
+  grid-gap: 8px
+.object-subtables-grid
+  display: grid
+  grid-template-columns: repeat(500, 250px )
+  grid-gap: 8px
+
+.table
+  border: 1px solid black
+  border-collapse: collapse
+  input
+    text-align: center
+  &:nth-child(odd)
+    background: #ffffff
+  &:nth-child(even)
+    background: #eeeeee
+.table-subhead-row
+  height: 80px
+  td
+    width: 50px
+    border: 1px solid black
+    border-collapse: collapse
+    text-align: center
+    font-weight: bold
+    padding: 8px
+
+.table-head-row
+
+  td
+    width: 50px
+    border: 1px solid black
+    border-collapse: collapse
+    text-align: center
+    font-weight: bold
+    padding: 8px
+    &:first-child
+      width: 250px
+.table-row
+  td
+    border: 1px solid black
+    border-collapse: collapse
+    text-align: center
+    &:nth-child(2)
+      text-align: left
+.can_edit
+
+
+  & .table-row, & .table-subhead-row, & .table-head-row
+    td
+      border: 1px solid red
