@@ -49,17 +49,7 @@
       </div>
 
       <div class="inner-grid ">
-      <div @click="$router.push('/catalog/objects')" class=" cursor-pointer">
-        <q-card>
-          <q-card-section>
-            Общее количество объектов
-          </q-card-section>
-          <q-separator/>
-          <q-card-section>
-            <p class="no-margin text-h5">{{stats.objects_count}}</p>
-          </q-card-section>
-        </q-card>
-      </div><!--       Общее количество объектов-->
+
       <div v-if="user?.role.id===1" @click="$router.push('/catalog/clients')" class=" cursor-pointer">
         <q-card>
           <q-card-section>
