@@ -8,12 +8,9 @@
     >
       <q-card>
         <q-card-section>
-          Оценку задач осуществляет сотрудник организации с правами администратора системы.<br><br>
-          У каждого отдела компании в соответствии с организационной структурой есть руководитель.<br><br>
-          Оценка субъективная, руководитель должен объяснить почему он оценил выполнение вашей задачи именно так.<br><br>
-          После оценки у задачи появляется оценка по 5 (пяти) бальной шкале и комментарий к ней. <br><br>
-          Система автоматически, после выставления оценки, в раздел обратная связь выставляет комментарий пользователя – Согласен. <br><br>
-          Пользователь на конкретной задаче может изменить обратную связь на - не согласен, надо обсудить.
+          Оценку задач осуществляет сотрудник организации с правами администратора системы. Оценка субъективная, администратор должен объяснить почему он оценил выполнение вашей задачи именно так.<br><br>
+          После оценки у задачи появляется оценка по 5 (пяти) бальной шкале и комментарий к ней. Система автоматически отправляет пользователю через телеграмм бот сообщение об оценки его задачи и комментарий почему такая оценка.<br><br>
+          Система автоматически, после выставления оценки, в разделе обратная связь выставляет комментарий пользователя – Согласен. Пользователь на конкретной задаче может изменить обратную связь на - не согласен или надо обсудить, при этом администратор в личном кабинете видит ответ пользователя.
         </q-card-section>
       </q-card>
     </q-expansion-item>
@@ -104,7 +101,7 @@
             <q-input  class="q-mb-md" v-model="props.row.result" dense type="textarea" outlined/>
             <q-btn v-if="!props.row.is_done" dense color="positive" icon="save"  no-caps unelevated label="Задача выполнена" :loading="is_loading" @click="saveTask(props.row)"/>
             <div v-if="props.row.admin_comment">
-              <p class="text-bold q-mb-sm">Коментарий администратора</p>
+              <p class="text-bold q-mb-sm">Комментарий администратора</p>
              <p>{{props.row.admin_comment}}</p>
 
             </div>
@@ -112,7 +109,7 @@
               <p class="text-bold q-mb-sm">Коментарий к оценке</p>
               <q-select outlined v-model="props.row.user_comment" :options="reply" label="Комментарий к оценке"/>
               <br>
-              <q-btn  dense color="positive" icon="save"  no-caps unelevated label="Сохранить коментарий" :loading="is_loading" @click="saveTask(props.row)"/>
+              <q-btn  dense color="positive" icon="save"  no-caps unelevated label="Сохранить комментарий" :loading="is_loading" @click="saveTask(props.row)"/>
 
             </div>
 
@@ -196,7 +193,7 @@ const initialPagination= {
 const columns = [
   { name: 'id', align: 'left',  label: 'ID', field: row => row.id ,  sortable: true},
   { name: 'priority', align: 'left',  label: 'Приоритет', field: row => row.priority ,  sortable: true},
-  { name: 'user', align: 'left',  label: 'Пользоатель', field: row => row.user.fio ,  sortable: true},
+  { name: 'user', align: 'left',  label: 'Пользователь', field: row => row.user.fio ,  sortable: true},
   { name: 'task', align: 'left',  label: 'Задача', field: row => row.task ,  sortable: true},
   { name: 'is_done', align: 'left',  label: 'Выполнено', field: row => row.is_done ,  sortable: true},
   { name: 'is_repeatable', align: 'left',  label: 'Ежедневная', field: row => row.is_repeatable ,  sortable: true},

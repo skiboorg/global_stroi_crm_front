@@ -51,6 +51,9 @@
                         :borderless="!can_edit && !item.is_new"
                         class="input-no-center"
                         v-model="item.name"/>
+            <q-tooltip v-if="item.name.length>70">
+              {{item.name}}
+            </q-tooltip>
 
           </td>
           <td><q-select :readonly="!can_edit && !item.is_new" dense

@@ -73,7 +73,7 @@
         </q-card>
       </div><!--       Количество пользователей в системе-->
 
-      <div  class="">
+      <div v-if="stats.objects_pay_ostatok?.length > 0" class="">
         <q-card>
           <q-card-section>
             Сумма к оплате
@@ -89,7 +89,7 @@
           </q-card-section>
         </q-card>
       </div><!--      Сумма к оплате-->
-      <div  class="">
+      <div v-if="stats.objects_procent_done?.length > 0">
         <q-card>
           <q-card-section>
             Процент выполнения работ

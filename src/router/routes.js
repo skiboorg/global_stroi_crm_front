@@ -141,7 +141,19 @@ const routes = [
       { path: 'marks', component: () => import('pages/reports/marks.vue') },
     ]
   },
-//user
+  {
+    path: '/store',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: 'all', component: () => import('pages/store/all.vue') },
+      { path: 'detail/:store_id', component: () => import('pages/store/detail.vue') },
+      { path: 'material/:id', component: () => import('pages/store/material.vue') },
+      { path: 'tool/:id', component: () => import('pages/store/tool.vue') },
+      { path: 'tool_acts', component: () => import('pages/store/tool_acts.vue') },
+      { path: 'material_acts', component: () => import('pages/store/material_acts.vue') },
+
+    ]
+  },
 
 
   // Always leave this as last one,

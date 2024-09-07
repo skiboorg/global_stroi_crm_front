@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div class="flex items-center justify-between q-mb-md">
-      <p class="no-margin text-h6 text-bold">Товары </p>
+      <p class="no-margin text-h6 text-bold">Склады </p>
       <q-space/>
       <AddButton icon="add" label="Добавить" @click="showModal(null)"/>
     </div>
@@ -9,10 +9,8 @@
       flat
       :rows="rows"
       :columns="columns"
-      row-key="name"
       hide-pagination
       table-header-class="table-header"
-      :pagination="initialPagination"
     >
       <template v-slot:header="props">
         <q-tr :props="props" class="bg-grey-2">
@@ -36,6 +34,7 @@
           </q-td>
           <q-td auto-width>
             <div class="q-gutter-md">
+              <q-btn icon="visibility" flat dense @click="$router.push(`/store/detail/${props.row.id}`)"/>
               <EditButton dense @click="showModal(props.row)"/>
               <AddButton dense color="negative" icon="delete" @click="deleteItem(props.row.id)"/>
             </div>
@@ -48,10 +47,11 @@
   <q-dialog v-model="itemModal">
     <q-card>
       <q-card-section class="q-pb-none">
-        <q-input outlined label="Введите название" v-model="newItem.name"/>
+        <q-input outlined label="Адрес" class="q-mb-md" v-model="newItem.address"/>
+        <q-input outlined label="Коментарий" type="textarea" v-model="newItem.comment"/>
       </q-card-section>
       <q-card-actions align="center">
-        <q-btn label="Сохранить" :disable="!newItem.name" no-caps color="positive" @click="save"/>
+        <q-btn label="Сохранить" :disable="!newItem.address" no-caps color="positive" @click="save"/>
         <q-btn label="Отмена" no-caps color="dark" v-close-popup/>
       </q-card-actions>
     </q-card>
@@ -69,7 +69,7 @@ import {useCommonStore} from "stores/common_data"
 const commonStore = useCommonStore()
 
 const columns = [
-  { name: 'name', align: 'left',  label: 'Название товара', field: row => row.name ,  sortable: true},
+  { name: 'address', align: 'left',  label: 'Адрес склада', field: row => row.address ,  sortable: true},
 ]
 
 const itemModal = ref(false)
@@ -77,53 +77,46 @@ const editId = ref(null)
 
 const newItem = ref({
   id:null,
-  name:null
+  address:null,
+  comment:null
 })
 
-const initialPagination= {
-  sortBy: 'desc',
-  descending: false,
-  page: 1,
-  rowsPerPage: 25
-  // rowsNumber: xx if getting data from a server
-}
+
 
 const rows = ref([])
 
-const query = ref({
-  q:'',
-  role__id:'',
-})
+
 
 onBeforeMount(async ()=>{
   await getPageData()
 })
 
 const getPageData = async () => {
-  const response = await api('/api/material_store/item')
+  const response = await api('/api/material_store/store')
   rows.value = response.data
 }
 
 const deleteItem = async (id) => {
-  await api.delete(`/api/material_store/item/${id}`)
+  await api.delete(`/api/material_store/store/${id}`)
   await getPageData()
 }
 
 const showModal = (item) => {
+  console.log(item)
   if (item){
     newItem.value = item
   }else {
     newItem.value = {
-      name:null
+      address:null
     }
   }
   itemModal.value = true
 }
 const save = async () => {
   if (newItem.value.id){
-    await api.put(`/api/material_store/item/${newItem.value.id}`,newItem.value)
+    await api.put(`/api/material_store/store/${newItem.value.id}`,newItem.value)
   }else {
-    await api.post(`/api/material_store/item`,newItem.value)
+    await api.post(`/api/material_store/store`,newItem.value)
   }
   itemModal.value = false
   await getPageData()

@@ -67,8 +67,6 @@ const getUser = async () => {
   const resp = await api(`/api/user/user/${route.params.id}`)
   console.log(resp.data)
   user.value = resp.data
-
-
 }
 </script>
 <style lang="sass">
