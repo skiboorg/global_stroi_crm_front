@@ -151,6 +151,8 @@ const routes = [
       { path: 'tool/:id', component: () => import('pages/store/tool.vue') },
       { path: 'tool_acts', component: () => import('pages/store/tool_acts.vue') },
       { path: 'material_acts', component: () => import('pages/store/material_acts.vue') },
+      { path: 'materials', component: () => import('pages/store/materials.vue') },
+      { path: 'tools', component: () => import('pages/store/tools.vue') },
 
     ]
   },

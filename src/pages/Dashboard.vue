@@ -50,28 +50,28 @@
 
       <div class="inner-grid ">
 
-      <div v-if="user?.role.id===1" @click="$router.push('/catalog/clients')" class=" cursor-pointer">
-        <q-card>
-          <q-card-section>
-            Количество клиентов
-          </q-card-section>
-          <q-separator/>
-          <q-card-section>
-            <p class="no-margin text-h5">{{stats.all_clients_count}}</p>
-          </q-card-section>
-        </q-card>
-      </div><!--       Количество клиентов-->
-      <div v-if="user?.role.id===1" @click="$router.push('/user')" class=" cursor-pointer">
-        <q-card>
-          <q-card-section>
-            Количество пользователей в системе
-          </q-card-section>
-          <q-separator/>
-          <q-card-section>
-            <p class="no-margin text-h5">{{stats.all_users_count}}</p>
-          </q-card-section>
-        </q-card>
-      </div><!--       Количество пользователей в системе-->
+<!--      <div v-if="user?.role.id===1" @click="$router.push('/catalog/clients')" class=" cursor-pointer">-->
+<!--        <q-card>-->
+<!--          <q-card-section>-->
+<!--            Количество клиентов-->
+<!--          </q-card-section>-->
+<!--          <q-separator/>-->
+<!--          <q-card-section>-->
+<!--            <p class="no-margin text-h5">{{stats.all_clients_count}}</p>-->
+<!--          </q-card-section>-->
+<!--        </q-card>-->
+<!--      </div>&lt;!&ndash;       Количество клиентов&ndash;&gt;-->
+<!--      <div v-if="user?.role.id===1" @click="$router.push('/user')" class=" cursor-pointer">-->
+<!--        <q-card>-->
+<!--          <q-card-section>-->
+<!--            Количество пользователей в системе-->
+<!--          </q-card-section>-->
+<!--          <q-separator/>-->
+<!--          <q-card-section>-->
+<!--            <p class="no-margin text-h5">{{stats.all_users_count}}</p>-->
+<!--          </q-card-section>-->
+<!--        </q-card>-->
+<!--      </div>&lt;!&ndash;       Количество пользователей в системе&ndash;&gt;-->
 
       <div v-if="stats.objects_pay_ostatok?.length > 0" class="">
         <q-card>

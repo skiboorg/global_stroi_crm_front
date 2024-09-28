@@ -152,7 +152,7 @@ const columns = [
   { name: 'name', align: 'left',  label: 'Название организации', field: row => row.name ,  sortable: true},
   { name: 'fio', align: 'left',  label: 'Контактное лицо', field: row => row.fio ,  sortable: true},
   { name: 'inn', align: 'left',  label: 'ИНН', field: row => row.inn ,  sortable: true},
-  { name: 'dogovor_summ', align: 'left',  label: 'Сумма договора', field: row => row.inn ,  sortable: true},
+  { name: 'dogovor_summ', align: 'left',  label: 'E-Mail', field: row => row.email ,  sortable: true},
   { name: 'phone', align: 'left',  label: 'Телефон', field: row => row.phone ,  sortable: true},
 
 ]

@@ -105,7 +105,7 @@ const materialFormSubmit = async ()=>{
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     })
-    useNotify('positive' ,'Материал добавлен на склад')
+    useNotify('positive' ,'ТМЦ добавлен на склад')
     await getStore()
     loading.value = false
     addMaterialModal.value = false
@@ -187,7 +187,7 @@ const createGiveAct = async ()=>{
 
       <p class="no-margin text-h6 text-bold">Информация о складе ID {{store.id}}</p>
       <q-space/>
-      <AddButton label="Добавить материал" @click="addMaterialModal = true" class="q-mr-md"/>
+      <AddButton label="Добавить ТМЦ" @click="addMaterialModal = true" class="q-mr-md"/>
       <AddButton label="Добавить инструмент" @click="addToolModal = true"/>
     </div>
     <div v-if="have_selected" class="row q-col-gutter-md">
@@ -232,7 +232,7 @@ const createGiveAct = async ()=>{
       align="justify"
       narrow-indicator
     >
-      <q-tab name="mat" label="Материалы" />
+      <q-tab name="mat" label="ТМЦ" />
       <q-tab name="tool" label="Инструменты" />
 
     </q-tabs>
@@ -371,7 +371,7 @@ const createGiveAct = async ()=>{
         <q-form @submit="materialFormSubmit">
           <q-card-section class="q-pb-none">
             <q-input dense outlined label="Название" class="q-mb-md" v-model="new_material.name"/>
-            <div class="row">
+            <div class="row q-col-gutter-md" >
               <div class="col-6">
                 <q-input type="number" dense outlined label="Изначальное кол-во" class="q-mb-md" v-model="new_material.init_amount"/>
               </div>

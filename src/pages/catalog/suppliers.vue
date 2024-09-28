@@ -55,7 +55,8 @@
             :key="col.name"
             @click="selectedItem = props.row,infoModal= true"
             :props="props">
-            <span >{{ col.value }}</span>
+            <span v-if="col.name==='file'"><a v-if="col.value" :href="col.value" target="_blank">Открыть</a> <span v-else>Нет</span> </span>
+            <span v-else>{{ col.value }}</span>
           </q-td>
           <q-td auto-width>
             <div class="q-gutter-md">
@@ -146,6 +147,8 @@ const columns = [
   { name: 'name', align: 'left',  label: 'Наименование поставщика', field: row => row.name ,  sortable: true},
   { name: 'inn', align: 'left',  label: 'ИНН', field: row => row.inn ,  sortable: true},
   { name: 'phone', align: 'left',  label: 'Телефон', field: row => row.phone ,  sortable: true},
+  { name: 'email', align: 'left',  label: 'E-Mail', field: row => row.email ,  sortable: true},
+  { name: 'file', align: 'left',  label: 'Договор', field: row => row.file ,  sortable: true},
 ]
 
 const itemModal = ref(false)

@@ -3,7 +3,7 @@
     <div v-if="object.id" class="q-mb-md">
       <div class="flex items-center justify-between q-mb-md">
         <BackButton/>
-        <p class="no-margin text-h6 text-bold">Объект ID:{{object.id}} - {{object.name}}</p>
+        <p class="no-margin text-h6 text-bold">Проект ID:{{object.id}} - {{object.name}}</p>
 
       </div>
       <p class="text-h6 text-bold">Общие данные</p>

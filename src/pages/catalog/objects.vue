@@ -18,7 +18,7 @@
     </q-expansion-item>
     <div class="flex items-center justify-between q-mb-md">
 
-      <p class="no-margin text-h6 text-bold">Объекты </p>
+      <p class="no-margin text-h6 text-bold">Проекты </p>
       <q-space/>
       <AddButton icon="add" label="Добавить" @click="showModal(null)"/>
     </div>

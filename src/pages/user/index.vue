@@ -59,8 +59,10 @@ const columns = [
   { name: 'username', align: 'left',  label: 'Логин', field: row => row.username ,  sortable: true},
   { name: 'role', align: 'left',  label: 'Роль', field: row => row.role?.name ,  sortable: true},
   { name: 'firstname', align: 'left',  label: 'ФИО', field: row => row.fio ,  sortable: true},
+ { name: 'position', align: 'left',  label: 'Телефон', field:row=>row.phone ,  sortable: true},
+  { name: 'email', align: 'left',  label: 'E-mail', field:row=>row.email ,  sortable: true},
   { name: 'telega_id', align: 'left',  label: 'TG бот', field:row=>row.telega_id ? '<span class="text-positive">Подключен</span>':'<span class="text-negative">Не подключен</span>' ,  sortable: true},
-  { name: 'position', align: 'left',  label: 'Телефон', field:row=>row.phone ,  sortable: true},
+
   { name: 'active', align: 'left',  label: 'Активный', field:row=>row.is_active ? '<span class="text-positive">Да</span>':'<span class="text-negative">Нет</span>' ,  sortable: true},
   //{ name: 'updated_at', align: 'left',  label: 'Обновлен', field: row =>new Date(row.updated_at).toLocaleString()   ,  sortable: true},
 ]

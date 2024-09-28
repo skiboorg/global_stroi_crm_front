@@ -99,6 +99,7 @@
             <p>{{props.row.task}}</p>
             <p class="text-bold q-mb-sm">Результат выполнения задачи</p>
             <q-input  class="q-mb-md" v-model="props.row.result" dense type="textarea" outlined/>
+            <q-file v-if="!props.row.is_done" class="q-mb-md" v-model="props.row.file" dense outlined label="Приложите файл, если требуется"/>
             <q-btn v-if="!props.row.is_done" dense color="positive" icon="save"  no-caps unelevated label="Задача выполнена" :loading="is_loading" @click="saveTask(props.row)"/>
             <div v-if="props.row.admin_comment">
               <p class="text-bold q-mb-sm">Комментарий администратора</p>
@@ -240,11 +241,33 @@ const formSubmit = async () => {
 }
 
 const saveTask = async (task) => {
-  is_loading.value = !is_loading.value
-  await api.patch(`/api/task/task/${task.id}`,{result:task.result,user_comment:task.user_comment})
-  useNotify('positive','Задача обновлена')
-  await getTasks()
-  is_loading.value = !is_loading.value
+  is_loading.value = true
+  let formData = new FormData()
+
+  let data = {...task}
+  delete data.user
+  for (let [k,v] of Object.entries(data)){
+    if (k!=='file' )
+      formData.append(k,v)
+  }
+  if (data.file){
+    formData.append('file',data.file)
+  }
+  try{
+    const response = await api({
+      method: "patch",
+      url: `/api/task/task/${data.id}`,
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    useNotify('positive','Задача обновлена')
+    await getTasks()
+    is_loading.value = false
+  }catch (e) {
+    useNotify('negative' ,'Проверьте входные данные')
+    is_loading.value = false
+  }
+  is_loading.value = false
 }
 const dateSelected = (val)=>{
   new_task.value.dead_line=new Date(val).toLocaleDateString()

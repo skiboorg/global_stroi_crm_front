@@ -50,6 +50,8 @@
                    :rules="[ val => val !== null && val !== ''  || 'Это обязательное поле']"/>
           <q-input outlined v-model="user.daily_rashod" type="number"  label="Дневной расход на сотрудника*" lazy-rules
                    :rules="[ val => val !== null && val !== ''  || 'Это обязательное поле']"/>
+          <q-input outlined v-model="user.total_income" class="q-mb-md" type="number"  label="Итого доход" />
+          <q-input outlined v-model="user.total_outcome" type="number"  label="Итого расход" />
           <q-checkbox v-model="user.is_active" label="Пользователь активный"/>
 
         </div>

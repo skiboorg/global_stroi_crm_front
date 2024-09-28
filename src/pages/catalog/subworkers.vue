@@ -14,7 +14,7 @@
       </q-card>
     </q-expansion-item>
     <div class="flex items-center justify-between q-mb-md">
-      <p class="no-margin text-h6 text-bold">Субподрядчики </p>
+      <p class="no-margin text-h6 text-bold">Подрядчики </p>
       <q-space/>
       <AddButton icon="add" label="Добавить" @click="showModal(null)"/>
     </div>
@@ -179,6 +179,7 @@ const columns = [
   { name: 'name', align: 'left',  label: 'ФИО', field: row => row.fio ,  sortable: true},
   { name: 'inn', align: 'left',  label: 'ИНН', field: row => row.inn ,  sortable: true},
   { name: 'phone', align: 'left',  label: 'Телефон', field: row => row.phone ,  sortable: true},
+  { name: 'email', align: 'left',  label: 'E-Mail', field: row => row.email ? row.email : row.user?.email   ,  sortable: true},
   { name: 'login', align: 'left',  label: 'Логин', field: row => row.user ? row.user.username : 'Нет пользователя' ,  sortable: true},
 ]
 

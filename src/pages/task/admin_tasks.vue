@@ -161,8 +161,10 @@
               </q-rating>
               <q-input outlined dense v-model="props.row.admin_comment" type="textarea" label="Обратная связь"/>
 
-              <div  class="q-mt-md">
-                <q-btn  dense color="positive" icon="save"  no-caps unelevated label="Сохранить" @click="updateTask(props.row)"/>
+              <div  class="q-gutter-md q-mt-md">
+                <q-btn  dense color="positive" icon="save" :loading="is_loading"  no-caps unelevated label="Сохранить" @click="updateTask(props.row)"/>
+                <q-btn v-if="props.row.file" :href="props.row.file" :loading="is_loading" dense color="info" target="_blank" no-caps unelevated label="Открыть прикрепленный файл" />
+
               </div>
 
 
@@ -295,9 +297,25 @@ const getTasks = async () => {
 }
 
 const updateTask = async (task) => {
-  await api.patch(`/api/task/task/${task.id}`,{task_value:task.task_value,admin_comment:task.admin_comment})
-  await getTasks()
-  useNotify('positive','Данные обновлены')
+  is_loading.value = true
+  let formData = new FormData()
+  formData.append('task_value',task.task_value)
+  formData.append('admin_comment',task.admin_comment)
+  try{
+    const response = await api({
+      method: "patch",
+      url: `/api/task/task/${task.id}`,
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    useNotify('positive','Задача обновлена')
+    await getTasks()
+    is_loading.value = false
+  }catch (e) {
+    useNotify('negative' ,'Проверьте входные данные')
+    is_loading.value = false
+  }
+  is_loading.value = false
 }
 
 const filterFn =  (val, update) => {

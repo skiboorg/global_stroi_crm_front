@@ -45,9 +45,12 @@
     </q-table>
   </q-page>
   <q-dialog v-model="itemModal">
-    <q-card>
+    <q-card style="width: 700px; max-width: 100vw;">
       <q-card-section class="q-pb-none">
         <q-input outlined label="Адрес" class="q-mb-md" v-model="newItem.address"/>
+        <q-input outlined label="Организация" class="q-mb-md" v-model="newItem.organization"/>
+        <q-input outlined label="ФИО" class="q-mb-md" v-model="newItem.fio"/>
+        <q-input outlined label="Должность" class="q-mb-md" v-model="newItem.dolgnost"/>
         <q-input outlined label="Коментарий" type="textarea" v-model="newItem.comment"/>
       </q-card-section>
       <q-card-actions align="center">
@@ -78,7 +81,11 @@ const editId = ref(null)
 const newItem = ref({
   id:null,
   address:null,
-  comment:null
+  comment:null,
+  organization:null,
+  dolgnost:null,
+  fio:null,
+
 })
 
 
