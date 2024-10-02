@@ -19,6 +19,13 @@ const doc_file = ref(null)
 const users = ref([])
 const selected_user = ref(null)
 
+const initialPagination= {
+  sortBy: 'desc',
+  descending: false,
+  page: 1,
+  rowsPerPage: 50
+}
+
 const new_item = ref({
   store:null,
   name:null,
@@ -189,7 +196,7 @@ const createGiveAct = async ()=>{
         flat
         :rows="selected_store ? items.filter(x=>x.store.id === selected_store) : items"
         :columns="item_columns"
-        hide-pagination
+        :pagination="initialPagination"
         table-header-class="table-header"
         row-key="id"
         selection="multiple"
