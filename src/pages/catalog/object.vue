@@ -51,7 +51,7 @@
                         :borderless="!can_edit && !item.is_new"
                         class="input-no-center"
                         v-model="item.name"/>
-            <q-tooltip v-if="item.name.length>70">
+            <q-tooltip v-if="item.name?.length>70">
               {{item.name}}
             </q-tooltip>
 
