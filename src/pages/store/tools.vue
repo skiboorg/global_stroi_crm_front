@@ -7,6 +7,7 @@ const commonStore = useCommonStore()
 import {useNotify} from "src/helpers/notify";
 import MaterialActs from "components/MaterialActs.vue";
 import ToolActs from "components/ToolActs.vue";
+import PageDescription from "components/PageDescription.vue";
 
 const items = ref([])
 const stores = ref([])
@@ -43,8 +44,8 @@ const item_columns = [
   { name: 'select', align: 'left',  label: '',  sortable: false},
   { name: 'id', align: 'left',  label: '#', field: row => row.id ,  sortable: true},
   { name: 'image', align: 'left',  label: 'Изображение', field: row => row.image ,  sortable: true},
-  { name: 'store', align: 'left',  label: 'Склад', field: row => row.store?.address ,  sortable: true},
-  { name: 'name', align: 'left',  label: 'Наименование', field: row => row.name ,  sortable: true},
+  { name: 'store', align: 'left',  label: 'Склад',style: 'min-width: 100px; max-width: 200px; white-space: normal;', field: row => row.store?.address ,  sortable: true},
+  { name: 'name', align: 'left', style: 'min-width: 200px; max-width: 300px; white-space: normal;', label: 'Наименование', field: row => row.name ,  sortable: true},
   { name: 'serial_numbers', align: 'left',  label: 'Серийный номер', field: row => row.serial_number ,  sortable: true},
   { name: 'condition', align: 'left',  label: 'Состояние', field: row => row.condition ,  sortable: true},
   { name: 'price', align: 'left',  label: 'Цена', field: row => row.price ,  sortable: true},
@@ -130,6 +131,7 @@ const createGiveAct = async ()=>{
 </script>
 
 <template>
+  <PageDescription/>
   <q-tabs
     v-model="tab"
     dense
@@ -200,6 +202,7 @@ const createGiveAct = async ()=>{
         table-header-class="table-header"
         row-key="id"
         selection="multiple"
+        style="table-layout: fixed;"
         class="q-mb-lg"
       >
 
@@ -225,7 +228,7 @@ const createGiveAct = async ()=>{
               <pre v-if="col.name === 'id'">{{ props.rowIndex + 1 }}</pre>
               <span v-else-if="col.name === 'select'"  ><q-checkbox :disable="!props.row.is_avaiable" v-model="props.row.is_selected"/></span>
               <q-img v-else-if="col.name === 'image'" :ratio="16/9" fit="contain" :src="col.value"/>
-              <pre v-else>{{col.value  }}</pre>
+              <p v-else>{{col.value  }}</p>
               <!--          <span v-if="col.name !== 'serial_numbers'">{{ col.value }}</span>-->
             </q-td>
             <q-td auto-width>

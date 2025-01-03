@@ -1,19 +1,6 @@
 <template>
   <q-page padding>
-    <q-expansion-item
-      expand-separator
-      icon="help"
-      label="Описание раздела"
-      class="q-mb-md"
-    >
-      <q-card>
-        <q-card-section>
-          В данный раздел вносятся все документы организации, направляемые контрагентам и государственным органам, с обязательным указанием исходящего номера.<br><br>
-          Исходящий номер система создает автоматически, для составления документа укажите номер, следующий за последним номеров, указанным в системе (например, 02-04-24).<br><br>
-          В течение 12 часов документ можно удалить, в этом случае создавая новый документ номер будет такой же как в удаленном документе. При создании исходящего документа, его электронный образ обязательно необходимо загрузить в систему, в противном случае, нужно будет удалить документ и создать его заново.
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
+    <PageDescription/>
     <div class="flex items-center justify-between q-mb-md">
       <p class="no-margin text-h6 text-bold">Исходящие </p>
       <q-space/>
@@ -92,6 +79,7 @@
           <DateInput dense  class="q-mb-md" v-model="newItem.send_date" label="Дата отправки" @selected="dateSelected"/>
           <q-select  outlined dense  map-options emit-value behavior="menu" class="q-mb-md" v-model="newItem.send_method" :options="send_types" label="Способ отправки"/>
           <q-input class="q-mb-md" outlined dense  label="Ф.И.О исполнителя " v-model="newItem.executor_fio" />
+          <q-input class="q-mb-md" outlined dense  label="Трек-номер " v-model="newItem.track_number" />
           <p v-if="newItem.file"><a :href="newItem.file" target="_blank">Загруженный ранее файл</a></p>
           <q-file class="q-mb-md"  outlined dense  label="Файл" v-model="file" />
         </q-card-section>
@@ -116,13 +104,15 @@ import {useCommonStore} from "stores/common_data"
 import DateInput from "components/DateInput.vue";
 import {useNotify} from "src/helpers/notify";
 import DeleteButton from "components/DeleteButton.vue";
+import PageDescription from "components/PageDescription.vue";
 const commonStore = useCommonStore()
 
 const columns = [
-  { name: 'inner_id', align: 'left',  label: 'Номер договора', field: row => row.inner_id ,  sortable: true},
+  { name: 'inner_id', align: 'left',  label: 'Номер', field: row => row.inner_id ,  sortable: true},
   { name: 'name', align: 'left',  label: 'Наименование', field: row => row.name ,  sortable: true},
   { name: 'receiver', align: 'left',  label: 'Получатель', field: row => row.receiver ,  sortable: true},
   { name: 'send_method', align: 'left',  label: 'Способ отправки', field: row => row.send_method ,  sortable: true},
+  { name: 'send_method', align: 'left',  label: 'Трек-номер', field: row => row.track_number ,  sortable: true},
   { name: 'executor_fio', align: 'left',  label: 'Ф.И.О исполнителя ', field: row => row.executor_fio ,  sortable: true},
   { name: 'send_date', align: 'left',  label: 'Дата отправки', field: row => new Date(row.send_date).toLocaleDateString() ,  sortable: true},
   { name: 'file', align: 'left',  label: 'Файл', field: row => row.file ? `<a href="${row.file}" target="_blank">Открыть</a>` : 'Нет' ,  sortable: true},
@@ -137,7 +127,10 @@ const editId = ref(null)
 
 
 const send_types = [
-  'Почтой',
+  'Служба доставки',
+  'E-mail',
+  'ЭДО',
+  'Под роспись',
   'Другое',
 ]
 
@@ -149,6 +142,7 @@ const newItem = ref({
   executor_fio:null,
   send_date:null,
   file:null,
+  track_number:null,
 })
 
 const initialPagination= {
@@ -204,6 +198,7 @@ const showModal = (item) => {
       send_method:null,
       executor_fio:null,
       send_date:null,
+      track_number:null,
     }
   }
   itemModal.value = true

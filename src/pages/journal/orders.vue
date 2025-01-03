@@ -1,20 +1,6 @@
 <template>
   <q-page padding>
-    <q-expansion-item
-      expand-separator
-      icon="help"
-      label="Описание раздела"
-      class="q-mb-md"
-    >
-      <q-card>
-        <q-card-section>
-
-          В данный раздел вносятся все приказы организации с обязательным указанием его номера.<br><br>
-          Номер система создает автоматически, для составления приказа укажите номер, следующий за последним номеров, указанным в системе. В течение 12 часов приказ можно удалить, в этом случае создавая новый приказ номер будет такой же как в удаленном приказе.<br><br>
-          При создании приказа, его электронный образ обязательно необходимо загрузить в систему, в противном случае, нужно будет удалить документ и создать его заново.
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
+    <PageDescription/>
     <div class="flex items-center justify-between q-mb-md">
 
       <p class="no-margin text-h6 text-bold">Приказы </p>
@@ -119,6 +105,7 @@ import DateInput from "components/DateInput.vue";
 import {useNotify} from "src/helpers/notify";
 import DeleteButton from "components/DeleteButton.vue";
 import BackButton from "components/BackButton.vue";
+import PageDescription from "components/PageDescription.vue";
 const commonStore = useCommonStore()
 
 const columns = [

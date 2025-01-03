@@ -1,17 +1,6 @@
 <template>
   <q-page padding>
-    <q-expansion-item
-      expand-separator
-      icon="help"
-      label="Описание раздела"
-      class="q-mb-md"
-    >
-      <q-card>
-        <q-card-section>
-          В данный раздел вносится данные всех клиенты, с которыми организация заключила договор (контракт), с обязательным добавлением электронного образа документа
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
+    <PageDescription/>
     <div class="flex items-center justify-between q-mb-md">
 
       <p class="no-margin text-h6 text-bold">Клиенты </p>
@@ -146,6 +135,7 @@ import {useCommonStore} from "stores/common_data"
 import DateInput from "components/DateInput.vue";
 import {useNotify} from "src/helpers/notify";
 import BackButton from "components/BackButton.vue";
+import PageDescription from "components/PageDescription.vue";
 const commonStore = useCommonStore()
 
 const columns = [

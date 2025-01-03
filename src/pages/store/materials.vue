@@ -6,6 +6,7 @@ import {useCommonStore} from "stores/common_data"
 const commonStore = useCommonStore()
 import {useNotify} from "src/helpers/notify";
 import MaterialActs from "components/MaterialActs.vue";
+import PageDescription from "components/PageDescription.vue";
 
 const items = ref([])
 const stores = ref([])
@@ -41,8 +42,8 @@ const item_columns = [
   { name: 'select', align: 'left',  label: '',  sortable: false},
   { name: 'id', align: 'left',  label: '#', field: row => row.id ,  sortable: true},
   { name: 'image', align: 'left',  label: 'Изображение', field: row => row.image ,  sortable: true},
-  { name: 'store', align: 'left',  label: 'Склад', field: row => row.store?.address ,  sortable: true},
-  { name: 'name', align: 'left',  label: 'Наименование', field: row => row.name ,  sortable: true},
+  { name: 'store', align: 'left',  label: 'Склад',style: 'min-width: 100px; max-width: 200px; white-space: normal;', field: row => row.store?.address ,  sortable: true},
+  { name: 'name', align: 'left', style: 'min-width: 200px; max-width: 300px; white-space: normal;', label: 'Наименование', field: row => row.name ,  sortable: true},
   { name: 'serial_numbers', align: 'left',  label: 'Серийные номера', field: row => row.serial_numbers ,  sortable: true},
   { name: 'init_amount', align: 'left',  label: 'Поступило', field: row => row.init_amount ,  sortable: true},
   { name: 'amount', align: 'left',  label: 'Oстаток', field: row => row.amount ,  sortable: true},
@@ -125,7 +126,8 @@ const createGiveAct = async ()=>{
 
 </script>
 
-<template>
+<template >
+  <PageDescription/>
   <q-tabs
     v-model="tab"
     dense
@@ -196,6 +198,7 @@ const createGiveAct = async ()=>{
     table-header-class="table-header"
     row-key="id"
     selection="multiple"
+    style="table-layout: fixed;"
     class="q-mb-lg"
   >
 
@@ -205,6 +208,7 @@ const createGiveAct = async ()=>{
           v-for="col in props.cols"
           :key="col.name"
           :props="props"
+
         >
           <span class="text-bold"> {{ col.label }}</span>
         </q-th>
@@ -220,7 +224,7 @@ const createGiveAct = async ()=>{
           :props="props">
 
           <pre v-if="col.name === 'id'">{{ props.rowIndex + 1 }}</pre>
-          <span v-else-if="col.name === 'store'"  >{{props.row.store?.address}}</span>
+          <span  v-else-if="col.name === 'store'"  >{{props.row.store?.address}}</span>
           <span v-else-if="col.name === 'select'"  ><q-checkbox  v-model="props.row.is_selected"/></span>
           <q-img v-else-if="col.name === 'image'" :ratio="16/9" fit="contain" :src="col.value"/>
           <p v-else-if="col.name === 'serial_numbers' ">
@@ -240,7 +244,7 @@ const createGiveAct = async ()=>{
                      :disable="!props.row.is_selected"
                      outlined dense v-model="props.row.give_serial_numbers"/>
           </p>
-          <pre v-else>{{col.value  }}</pre>
+          <p  v-else>{{col.value  }}</p>
           <!--          <span v-if="col.name !== 'serial_numbers'">{{ col.value }}</span>-->
         </q-td>
 
@@ -269,7 +273,7 @@ const createGiveAct = async ()=>{
           <q-input dense outlined label="Название" class="q-mb-md" v-model="new_item.name"/>
           <div class="row q-col-gutter-md">
             <div class="col-6">
-              <q-input type="number" dense outlined label="Изначальное кол-во" class="q-mb-md" v-model="new_item.init_amount"/>
+              <q-input type="number" dense outlined label="Начальное кол-во" class="q-mb-md" v-model="new_item.init_amount"/>
             </div>
             <div class="col-6">
               <q-select  outlined dense  map-options emit-value behavior="menu" class="q-mb-md" v-model="new_item.unit" :options="units" label="Ед. измерения"/>

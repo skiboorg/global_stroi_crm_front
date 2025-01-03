@@ -117,13 +117,12 @@ const commonStore = useCommonStore()
 
 const columns = [
   { name: 'username', align: 'left',  label: 'ФИО', field: row => row.user.fio ,  sortable: true},
-  { name: 'middle_logins_mark', align: 'left',  label: 'Количество усилий', field:row=>row.middle_logins_mark ,  sortable: true},
-  { name: 'middle_task_mark', align: 'left',  label: 'Качество усилий', field: row => row.middle_task_mark ,  sortable: true},
-  { name: 'middle_forms_mark', align: 'left',  label: 'Операционные результаты', field: row => row.middle_forms_mark ,  sortable: true},
+  { name: 'middle_logins_mark', align: 'left',  label: 'Период', field:row=>row.days_in_period ,  sortable: true},
+  { name: 'middle_task_mark', align: 'left',  label: 'ЗП в день', field: row => row.daily_rashod ,  sortable: true},
+  { name: 'middle_forms_mark', align: 'left',  label: 'ЗП за период', field: row => row.period_income ,  sortable: true},
+  { name: 'middle_forms_mark', align: 'left',  label: 'Расходы в день', field: row => row.daily_rashod ,  sortable: true},
+  { name: 'middle_forms_mark', align: 'left',  label: 'Расходы за период', field: row => row.period_outcome ,  sortable: true},
 
-
-  { name: 'total_mark', align: 'left',  label: 'Общая оценка', field:row=>row.total_mark ,  sortable: true},
-  //{ name: 'updated_at', align: 'left',  label: 'Обновлен', field: row =>new Date(row.updated_at).toLocaleString()   ,  sortable: true},
 ]
 
 const initialPagination= {
@@ -169,8 +168,8 @@ onBeforeMount(async ()=>{
 })
 
 const getData = async () => {
-  const resp =await api(`/api/report/marks?created_at_gte=${filters.value.created_at_gte}&created_at_lte=${filters.value.created_at_lte}`)
-    rows.value =  resp.data
+  const resp =await api(`/api/report/finance?created_at_gte=${filters.value.created_at_gte}&created_at_lte=${filters.value.created_at_lte}`)
+  rows.value =  resp.data
   if (filters.value.user__id){
     rows.value = rows.value.filter(x=>x.user.id === filters.value.user__id)
   }

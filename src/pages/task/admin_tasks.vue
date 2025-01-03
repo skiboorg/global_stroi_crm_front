@@ -1,22 +1,6 @@
 <template>
   <q-page padding>
-    <q-expansion-item
-      expand-separator
-      icon="help"
-      label="Описание раздела"
-      class="q-mb-md"
-    >
-      <q-card>
-        <q-card-section>
-          Оценку задач осуществляет сотрудник организации с правами администратора системы.<br><br>
-          У каждого отдела компании в соответствии с организационной структурой есть руководитель.<br><br>
-          Оценка субъективная, руководитель должен объяснить почему он оценил выполнение вашей задачи именно так.<br><br>
-          После оценки у задачи появляется оценка по 5 (пяти) бальной шкале и комментарий к ней. <br><br>
-          Система автоматически, после выставления оценки, в раздел обратная связь выставляет комментарий пользователя – Согласен. <br><br>
-          Пользователь на конкретной задаче может изменить обратную связь на - не согласен, надо обсудить.
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
+    <PageDescription/>
     <div class="flex items-center justify-between q-mb-md">
       <p class="no-margin text-h6 text-bold">Задачи</p>
 <!--      <q-space/>-->
@@ -134,7 +118,7 @@
             <p>{{props.row.task}}</p>
             <div v-if="props.row.is_done">
               <p class="text-bold q-mb-sm">Результат выполнения задачи</p>
-              <p>{{props.row.result}}</p>
+              <p style="white-space: break-spaces;max-width: 80%">{{props.row.result}}</p>
               <p class="text-bold q-mb-sm">Оценка выполнения задачи</p>
               <q-rating
                 v-model="props.row.task_value"
@@ -163,7 +147,7 @@
 
               <div  class="q-gutter-md q-mt-md">
                 <q-btn  dense color="positive" icon="save" :loading="is_loading"  no-caps unelevated label="Сохранить" @click="updateTask(props.row)"/>
-                <q-btn v-if="props.row.file" :href="props.row.file" :loading="is_loading" dense color="info" target="_blank" no-caps unelevated label="Открыть прикрепленный файл" />
+                <q-btn v-if="props.row.file" :href="props.row.file" :loading="is_loading" icon="download" dense outline color="primary" target="_blank" no-caps unelevated label="Скачать файл" />
 
               </div>
 
@@ -216,6 +200,7 @@ import {useCommonStore} from "stores/common_data"
 import AddButton from "components/AddButton.vue";
 import {useNotify} from "src/helpers/notify";
 import DeleteButton from "components/DeleteButton.vue";
+import PageDescription from "components/PageDescription.vue";
 const commonStore = useCommonStore()
 const task_result = ref(null)
 

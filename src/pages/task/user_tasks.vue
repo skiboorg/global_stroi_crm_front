@@ -1,19 +1,6 @@
 <template>
   <q-page padding>
-    <q-expansion-item
-      expand-separator
-      icon="help"
-      label="Описание раздела"
-      class="q-mb-md"
-    >
-      <q-card>
-        <q-card-section>
-          Оценку задач осуществляет сотрудник организации с правами администратора системы. Оценка субъективная, администратор должен объяснить почему он оценил выполнение вашей задачи именно так.<br><br>
-          После оценки у задачи появляется оценка по 5 (пяти) бальной шкале и комментарий к ней. Система автоматически отправляет пользователю через телеграмм бот сообщение об оценки его задачи и комментарий почему такая оценка.<br><br>
-          Система автоматически, после выставления оценки, в разделе обратная связь выставляет комментарий пользователя – Согласен. Пользователь на конкретной задаче может изменить обратную связь на - не согласен или надо обсудить, при этом администратор в личном кабинете видит ответ пользователя.
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
+    <PageDescription/>
     <div class="flex items-center justify-between q-mb-md">
 
       <p class="no-margin text-h6 text-bold">Задачи на {{dead_line_date}}</p>
@@ -148,6 +135,7 @@ import { useAuthStore } from 'stores/auth'
 const auth_store = useAuthStore()
 import {useNotify} from "src/helpers/notify";
 import DeleteButton from "components/DeleteButton.vue";
+import PageDescription from "components/PageDescription.vue";
 
 const is_loading = ref(false)
 const need_add_task = ref(false)

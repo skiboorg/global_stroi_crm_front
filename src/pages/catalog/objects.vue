@@ -1,21 +1,6 @@
 <template>
   <q-page padding>
-    <q-expansion-item
-      expand-separator
-      icon="help"
-      label="Описание раздела"
-      class="q-mb-md"
-    >
-      <q-card>
-        <q-card-section>
-          В данный раздел вносятся все данные по объекту, на котором организация производит работы.<br><br>
-
-          При создании объекта, уполномоченный пользователь создает расчет стоимости работ по этому объекту и добавляет к нему субподрядчика. Сумма договора и аванса подлежит округлению до целого числа в большую сторону.<br><br>
-
-          В процессе выполнения работ уполномоченный пользователь выставляет ежедневный план выполнения работ субподрядчику, субподрядчик ежедневно вносит в расчет стоимости фактически выполненные объемы работ, система автоматически определяет сколько субподрядчик сегодня заработал денег и сколько процент от общего объема работ выполнено.
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
+    <PageDescription/>
     <div class="flex items-center justify-between q-mb-md">
 
       <p class="no-margin text-h6 text-bold">Проекты </p>
@@ -57,7 +42,8 @@
             <span >{{ col.value }}</span>
           </q-td>
           <q-td auto-width>
-            <div class="q-gutter-md">
+            <div class="q-gutter-md" v-if="props.row?.procent_done < 100">
+
               <EditButton dense @click="showModal(props.row)"/>
               <DeleteButton   @confirm="deleteItem(props.row.id)" />
             </div>
@@ -147,6 +133,7 @@ const commonStore = useCommonStore()
 import {useAuthStore} from "stores/auth"
 import DeleteButton from "components/DeleteButton.vue";
 import BackButton from "components/BackButton.vue";
+import PageDescription from "components/PageDescription.vue";
 const authStore = useAuthStore()
 
 const columns = [

@@ -1,21 +1,6 @@
 <template>
   <q-page padding>
-    <q-expansion-item
-      expand-separator
-      icon="help"
-      label="Описание раздела"
-      class="q-mb-md"
-    >
-      <q-card>
-        <q-card-section>
-          В отчете сотрудника представлена сводная информация по количеству, качеству усилий, операционным и финансовым результатам. Автоматически система формирует данные по состоянию на вчерашний день. Сотрудник может выбрать любой произвольный период времени начиная с момента первой авторизации в системе.<br><br>
-          Финансовые показатели сотрудника состоят из двух:<br><br>
-          1. Заработная плата сотрудника на руки (начисленная сумма за один день работы сотрудника)<br>
-          2. Расходы организации на сотрудника (начисленная сумма за один день работы сотрудника плюс налоги и страховые взносы)<br><br>
-          Финансовые показатели возможно посмотреть в разрезе минимум 1 (одного) рабочего дня. Для этого необходимо в фильтре изменить дату начала отчета на предыдущий день. Финансовые показатели рассчитываются путем деления заработной платы (расходов организации) в месяц на 22 (двадцать два) рабочих дня. Согласно производственного календаря среднее количество рабочих дней в году составляет 22 (двадцать два) дня.
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
+    <PageDescription/>
     <div class="flex items-center  q-mb-lg">
       <BackButton/>
       <p class="no-margin text-h6 text-bold">Отчет пользователя {{data.user}}</p>
@@ -160,15 +145,28 @@
     </div>
 
     <p v-else >Назначеных задач не было </p>
+
     <p class=" text-h6 text-bold">Финансовые показатели</p>
     <table class="info-table full-width q-mb-lg">
       <tr>
-        <td style="width: 50%" >Заработная плата сотрудника на руки</td>
-        <td style="width: 50%" class="text-bold">{{data.period_income}}</td>
+        <td  style="width: 50%" class="text-bold"></td>
+        <td  style="width: 10%" class="text-bold">Период</td>
+        <td  style="width: 20%" class="text-bold">Сумма</td>
+        <td  style="width: 20%" class="text-bold">Итого</td>
       </tr>
       <tr>
+        <td style="width: 50%" >Заработная плата сотрудника на руки</td>
+        <td style="width: 10%" class="text-bold">{{differenceInDays}}</td>
+        <td style="width: 20%" class="text-bold">{{data.daily_payment}}</td>
+        <td style="width: 20%" class="text-bold">{{data.period_income}}</td>
+
+      </tr>
+
+      <tr>
         <td style="width: 50%" >Расходы организации на сотрудника</td>
-        <td style="width: 50%" class="text-bold">{{data.period_outcome}}</td>
+        <td style="width: 10%" class="text-bold">{{differenceInDays}}</td>
+        <td style="width: 20%" class="text-bold">{{data.daily_rashod}}</td>
+        <td style="width: 20%" class="text-bold">{{data.period_outcome}}</td>
       </tr>
     </table>
 
@@ -183,6 +181,7 @@ import {onBeforeMount, ref} from "vue";
 import { useRoute} from "vue-router";
 import {useCommonStore} from "stores/common_data"
 import {useAuthStore} from "stores/auth";
+import PageDescription from "components/PageDescription.vue";
 const commonStore = useCommonStore()
 const {user} = useAuthStore()
 const filters = ref({
@@ -191,6 +190,7 @@ const filters = ref({
   created_at_lte:null,
 })
 const route = useRoute()
+const differenceInDays = ref(0)
 const data = ref([])
 const query_string = ref('')
 
@@ -257,6 +257,10 @@ const getData = async () => {
 const filterAction = async (action) => {
   query_string.value = ``
   if (action==='apply'){
+    const dateGte = new Date(filters.value.created_at_gte);
+    const dateLte = new Date(filters.value.created_at_lte);
+    const differenceInMs = dateLte - dateGte;
+    differenceInDays.value = differenceInMs / (1000 * 60 * 60 * 24);
     for (let [k,v] of Object.entries(filters.value)){
       console.log(k,v)
       v ? query_string.value += `${k}=${v}&` : null

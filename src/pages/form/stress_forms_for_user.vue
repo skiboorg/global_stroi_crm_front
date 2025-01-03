@@ -1,19 +1,6 @@
 <template>
   <q-page padding>
-    <q-expansion-item
-      expand-separator
-      icon="help"
-      label="Описание раздела"
-      class="q-mb-md"
-    >
-      <q-card>
-        <q-card-section>
-          Операционные показатели – те действия, которые прямо или косвенно влияют на финансовый результат организации. <br><br>
-          Программа ежедневно собирает данные с пользователей о выполнении ими конкретных показателей и в процентном отношении сравнивает их с выставленным администратором планом на день. Например, количество звонков клиенту – План 10 /Факт 5, план выполнен на 50 процентов.<br><br>
-          Сбор данных позволяет руководителю контролировать количество прилагаемых сотрудником усилий по достижению результата. В случае необходимости система позволит скорректировать показатели пользователя или план по его усилиям.
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
+    <PageDescription/>
     <div class="flex items-center justify-between q-mb-md">
       <p class="no-margin text-h6 text-bold">Операционные показатели</p>
 
@@ -111,6 +98,7 @@
 import {onBeforeMount, ref} from "vue";
 import {api} from "boot/axios";
 import { useAuthStore } from 'stores/auth'
+import PageDescription from "components/PageDescription.vue";
 const auth_store = useAuthStore()
 const columns = [
   { name: 'id', align: 'left',  label: 'ID', field: row => row.id,  sortable: true},

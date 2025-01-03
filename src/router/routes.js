@@ -139,6 +139,7 @@ const routes = [
       { path: '', component: () => import('pages/reports/index.vue') },
       { path: 'report/:user_id', component: () => import('pages/reports/report.vue') },
       { path: 'marks', component: () => import('pages/reports/marks.vue') },
+      { path: 'finances', component: () => import('pages/reports/finances.vue') },
     ]
   },
   {

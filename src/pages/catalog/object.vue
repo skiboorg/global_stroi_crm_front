@@ -7,6 +7,7 @@
 
       </div>
       <p class="text-h6 text-bold">Общие данные</p>
+      <div class="object-tables-grid items-start no-wrap" style="gap:8px">
       <table class="info-table q-mb-lg">
         <tr><td><span class="text-bold ">Адрес </span></td><td>{{object.address}}</td></tr>
         <tr><td><span class="text-bold ">Подрядчик </span></td><td>{{object.subworker?.fio}}</td></tr>
@@ -15,15 +16,36 @@
         <tr><td><span class="text-bold ">Выполнено работ </span></td><td>{{object.procent_done}} %</td></tr>
         <tr><td><span class="text-bold ">Сумма к оплате </span></td><td>{{$filters.formatPrice(object.to_pay)}} руб</td></tr>
       </table>
-<!--      <p class="no-margin"><span class="text-bold ">Адрес </span>{{object.address}}</p>-->
-<!--      <p class="no-margin"><span class="text-bold ">Подрядчик </span> {{object.subworker?.fio}}</p>-->
-<!--      <p class="no-margin" ><span class="text-bold ">Сумма договора </span>{{$filters.formatPrice(object.total)}} руб</p>-->
-<!--      <p class="no-margin"><span class="text-bold ">Сумма аванса </span>{{$filters.formatPrice(object.avans)}} руб</p>-->
-<!--      <p class="no-margin"><span class="text-bold ">Выполнено работ </span>{{object.procent_done}} %</p>-->
-<!--      <p class="no-margin"><span class="text-bold ">Сумма к оплате </span>{{$filters.formatPrice(object.to_pay)}} руб</p>-->
-<!--      <p class="q-mb-md"><span class="text-bold ">Остаток оплаты </span>{{$filters.formatPrice(object.pay_ostatok)}} руб</p>-->
+      </div>
     </div>
     <div class="q-gutter-md q-mb-md">
+      <q-uploader
+        v-if="object.dates?.length === 0 && !can_edit"
+        :factory="factoryFn"
+        accept=".xls, .xlsx "
+        style="max-width: 300px"
+      >
+        <template v-slot:header="scope">
+          <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
+
+            <div class="col">
+              <div class="q-uploader__title">Выберите файл для загрузки</div>
+              <div class="q-uploader__subtitle">xls или xlsx</div>
+            </div>
+            <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" @click="scope.pickFiles" round dense flat>
+              <q-uploader-add-trigger />
+              <q-tooltip>Выбрать</q-tooltip>
+            </q-btn>
+            <q-btn v-if="scope.canUpload" icon="cloud_upload" @click="scope.upload" round dense flat >
+              <q-tooltip>Загрузить</q-tooltip>
+            </q-btn>
+
+            <q-btn v-if="scope.isUploading" icon="clear" @click="scope.abort" round dense flat >
+              <q-tooltip>Abort Upload</q-tooltip>
+            </q-btn>
+          </div>
+        </template>
+      </q-uploader>
       <EditButton v-if="object.is_items_added && object.items?.length>0 && !date_added" class="q-mb-md" label="Редактировать таблицу" color="warning" @click="can_edit = true"/>
       <AddButton v-if="object.is_items_added && object.items?.length>0 && !date_added && !can_edit" class="q-mb-md" label="Добавить дату" color="positive" @click="addReport"/>
     </div>
@@ -51,7 +73,7 @@
                         :borderless="!can_edit && !item.is_new"
                         class="input-no-center"
                         v-model="item.name"/>
-            <q-tooltip v-if="item.name?.length>70">
+            <q-tooltip v-if="item.name?.length>50">
               {{item.name}}
             </q-tooltip>
 
@@ -75,7 +97,7 @@
 
         </tr>
         <tr class="table-row">
-          <td colspan="4" ></td>
+          <td colspan="5" ></td>
           <td  class="text-bold">Итого</td>
           <td class=" text-bold">{{object.total_items_price}}</td>
 
@@ -161,6 +183,7 @@ import EditButton from "components/EditButton.vue";
 import {useAuthStore} from "stores/auth"
 import BackButton from "components/BackButton.vue";
 import DeleteButton from "components/DeleteButton.vue";
+import PageDescription from "components/PageDescription.vue";
 const authStore = useAuthStore()
 
 // const objects_total = ref({
@@ -238,6 +261,33 @@ const deleteItem = async (index) => {
     console.log('old')
     await api.delete(`/api/catalog/object_item/${items.value[index].id}`)
     await getPageData()
+  }
+
+}
+
+const factoryFn = async (files) => {
+  console.log(files)
+  const formData = new FormData();
+  formData.append('file', files[0])
+  const {data} = await api.post('/api/catalog/object/upload_xls', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data', // Указываем тип содержимого
+    },
+  });
+  if (data.success) {
+    console.log(data)
+    data.data.forEach(item => {
+     items.value.push({
+       is_new:true,
+       name:item['Наименование'],
+       unit:item['Ед. изм.'],
+       total_amount:item['Кол-во'],
+       today_ostatok:0,
+       price_per_unit:item['Цена '],
+       total_price:item['Общая стоимость'],
+     })
+    })
+    item_added.value = true
   }
 
 }

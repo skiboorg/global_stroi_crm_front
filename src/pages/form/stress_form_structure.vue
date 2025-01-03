@@ -1,8 +1,9 @@
 <template>
   <q-page padding>
+    <PageDescription/>
     <div class="flex items-center justify-between q-mb-md">
       <BackButton/>
-      <p class="no-margin text-h6 text-bold">Структура формы усилий</p>
+      <p class="no-margin text-h6 text-bold">Структура формы</p>
 
     </div>
 
@@ -71,6 +72,7 @@ import {useNotify} from "src/helpers/notify";
 import DeleteButton from "components/DeleteButton.vue";
 import {useCommonStore} from "stores/common_data";
 import BackButton from "components/BackButton.vue";
+import PageDescription from "components/PageDescription.vue";
 const commonStore = useCommonStore()
 
 const formData = ref([])

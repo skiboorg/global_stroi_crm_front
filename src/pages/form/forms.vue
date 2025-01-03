@@ -1,5 +1,6 @@
 <template>
   <q-page padding>
+    <PageDescription/>
     <div class="flex items-center justify-between q-mb-md">
 
       <p class="no-margin text-h6 text-bold">Формы показателей</p>
@@ -65,6 +66,7 @@ import {onBeforeMount, ref} from "vue";
 import {api} from "boot/axios";
 import { useAuthStore } from 'stores/auth'
 import BackButton from "components/BackButton.vue";
+import PageDescription from "components/PageDescription.vue";
 const auth_store = useAuthStore()
 const columns = [
   { name: 'id', align: 'left',  label: 'ID', field: row => row.id,  sortable: true},

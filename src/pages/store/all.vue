@@ -1,5 +1,6 @@
 <template>
   <q-page padding>
+    <PageDescription/>
     <div class="flex items-center justify-between q-mb-md">
       <p class="no-margin text-h6 text-bold">Склады </p>
       <q-space/>
@@ -69,6 +70,7 @@ import AddButton from "components/AddButton.vue";
 import EditButton from "components/EditButton.vue";
 
 import {useCommonStore} from "stores/common_data"
+import PageDescription from "components/PageDescription.vue";
 const commonStore = useCommonStore()
 
 const columns = [
