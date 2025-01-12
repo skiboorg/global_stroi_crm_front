@@ -18,7 +18,7 @@
       </table>
       </div>
     </div>
-    <div class="q-gutter-md q-mb-md">
+    <div v-if="object.procent_done<100" class="q-gutter-md q-mb-md">
       <q-uploader
         v-if="object.dates?.length === 0 && !can_edit"
         :factory="factoryFn"
@@ -29,7 +29,7 @@
           <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
 
             <div class="col">
-              <div class="q-uploader__title">Выберите файл для загрузки</div>
+              <div class="q-uploader__title">Выберите файл для загрузки в формате Наименованое, единица измерения, кол-во, цена за единицу, после выбора файла нажмите кнопку загрузить</div>
               <div class="q-uploader__subtitle">xls или xlsx</div>
             </div>
             <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" @click="scope.pickFiles" round dense flat>

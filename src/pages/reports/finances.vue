@@ -67,40 +67,47 @@
 
     </div>
 
-    <q-table
-      flat
-      :rows="rows"
-      :columns="columns"
-      row-key="name"
-      hide-pagination
-      table-header-class="table-header"
-      :pagination="initialPagination"
-    >
-      <template v-slot:header="props">
-        <q-tr :props="props" class="bg-grey-2">
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            <span class="text-bold"> {{ col.label }}</span>
-          </q-th>
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+      <thead>
+      <tr style="background-color: #f2f2f2;">
+        <th>ФИО</th>
+        <th>Период</th>
+        <th>ЗП в день</th>
+        <th>ЗП за период</th>
+        <th>Расходы в день</th>
+        <th>Расходы за период</th>
 
-        </q-tr>
-      </template>
-      <template v-slot:body="props">
-        <q-tr :props="props">
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Данные пользователей -->
+      <tr v-for="user in rows.users" :key="user.id">
+        <td>{{user.user?.fio}}</td>
+        <td>{{user.days_in_period}}</td>
+        <td>{{user.daily_rashod}}</td>
+        <td>{{user.period_income}}</td>
+        <td>{{user.daily_rashod}}</td>
+        <td>{{user.period_outcome}}</td>
 
-          <q-td
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props">
-            <span >{{ col.value }}</span>
-          </q-td>
 
-        </q-tr>
-      </template>
-    </q-table>
+
+      </tr>
+
+      <!-- Итоги -->
+      <tr style="font-weight: bold; background-color: #e0f7fa;">
+        <td>Итого</td>
+        <td>{{rows.totals?.days_in_period}}</td>
+        <td>{{rows.totals?.daily_rashod}}</td>
+        <td>{{rows.totals?.period_income}}</td>
+        <td>{{rows.totals?.daily_rashod}}</td>
+        <td>{{rows.totals?.period_outcome}}</td>
+
+      </tr>
+      </tbody>
+    </table>
+
+
+
   </q-page>
 </template>
 <script setup>

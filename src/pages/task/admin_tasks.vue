@@ -118,7 +118,10 @@
             <p>{{props.row.task}}</p>
             <div v-if="props.row.is_done">
               <p class="text-bold q-mb-sm">Результат выполнения задачи</p>
-              <p style="white-space: break-spaces;max-width: 80%">{{props.row.result}}</p>
+              <div style="height: 80px; overflow-y: auto; width: 80%" >
+                <p style="white-space: break-spaces">{{props.row.result}}</p>
+              </div>
+
               <p class="text-bold q-mb-sm">Оценка выполнения задачи</p>
               <q-rating
                 v-model="props.row.task_value"
