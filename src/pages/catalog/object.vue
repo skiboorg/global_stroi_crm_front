@@ -29,8 +29,11 @@
           <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
 
             <div class="col">
-              <div class="q-uploader__title">Выберите файл для загрузки в формате Наименованое, единица измерения, кол-во, цена за единицу, после выбора файла нажмите кнопку загрузить</div>
-              <div class="q-uploader__subtitle">xls или xlsx</div>
+              <div class="q-uploader__title">
+                Выберите файл в формате xls, xlsx содержащее наименование, единицу измерения, кол-во, цена за единицу, общую стоимость
+
+              </div>
+<!--              <div class="q-uploader__subtitle">xls или xlsx</div>-->
             </div>
             <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" @click="scope.pickFiles" round dense flat>
               <q-uploader-add-trigger />
@@ -162,7 +165,7 @@
     </div>
     </div>
 
-    <AddButton v-if="object.dates?.length === 0 && !can_edit" class="q-mb-md" label="Добавить товар" color="primary" @click="addItem"/><br>
+    <AddButton v-if="object.dates?.length === 0 && !can_edit" class="q-mb-md" label="Добавить" color="primary" @click="addItem"/><br>
     <AddButton v-if="!can_edit && object.dates?.length === 0 && items.length>0 && item_added"
                :disable="!can_save"
                class="q-mb-md" icon="save"

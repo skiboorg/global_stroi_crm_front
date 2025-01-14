@@ -218,14 +218,14 @@ const columns = [
     align: 'left',
     label: 'Время выполнения',
     field: row => {
-      if (!row.created_at || !row.done_date) return 'Нет данных';
-      const createdAt = new Date(row.created_at);
+      if (!row.created || !row.done_date) return 'Нет данных';
+      const createdAt = new Date(row.created);
       const doneDate = new Date(row.done_date);
       const differenceInMs = doneDate - createdAt;
 
       // Переводим миллисекунды в часы и минуты
       const totalMinutes = Math.floor(differenceInMs / (1000 * 60));
-      const hours = Math.floor(totalMinutes / 60);
+      const hours = Math.floor(totalMinutes / 60) ;
       const minutes = totalMinutes % 60;
 
       return `${hours}ч ${minutes}мин`;

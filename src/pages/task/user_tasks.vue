@@ -188,6 +188,23 @@ const columns = [
   { name: 'is_repeatable', align: 'left',  label: 'Ежедневная', field: row => row.is_repeatable ,  sortable: true},
   { name: 'dead_line_date', align: 'left',  label: 'Выполнить до', field: row => `${new Date(row.dead_line_date).toLocaleDateString()} ${row.dead_line_time}`,  sortable: true},
   { name: 'task_value', align: 'left',  label: 'Оценка', field: row => row.task_value ? row.task_value : 'Нет',  sortable: true},
+  { name: 'dead_line_time', align: 'left',  label: 'Время вып.',
+    field: row => {
+      if (row.is_repeatable ) return '-';
+      if (!row.created || !row.done_date) return 'Нет данных';
+      const createdAt = new Date(row.created);
+      const doneDate = new Date(row.done_date);
+      const differenceInMs = doneDate - createdAt;
+
+      // Переводим миллисекунды в часы и минуты
+      const totalMinutes = Math.floor(differenceInMs / (1000 * 60));
+      const hours = Math.floor(totalMinutes / 60) ;
+      const minutes = totalMinutes % 60;
+
+      return `${hours}ч ${minutes}мин`;
+    },
+    sortable: true
+  },
 ]
 
 onBeforeMount(async ()=>{

@@ -2,7 +2,7 @@
   <q-page padding>
     <PageDescription/>
     <div class="flex items-center justify-between q-mb-md">
-      <p class="no-margin text-h6 text-bold">Оценки</p>
+      <p class="no-margin text-h6 text-bold">Финансовые показатели</p>
 
     </div>
     <div class="row q-col-gutter-md q-mb-lg">
@@ -84,7 +84,7 @@
       <tr v-for="user in rows.users" :key="user.id">
         <td>{{user.user?.fio}}</td>
         <td>{{user.days_in_period}}</td>
-        <td>{{user.daily_rashod}}</td>
+        <td>{{user.daily_payment}}</td>
         <td>{{user.period_income}}</td>
         <td>{{user.daily_rashod}}</td>
         <td>{{user.period_outcome}}</td>
@@ -97,7 +97,7 @@
       <tr style="font-weight: bold; background-color: #e0f7fa;">
         <td>Итого</td>
         <td>{{rows.totals?.days_in_period}}</td>
-        <td>{{rows.totals?.daily_rashod}}</td>
+        <td>{{rows.totals?.daily_payment}}</td>
         <td>{{rows.totals?.period_income}}</td>
         <td>{{rows.totals?.daily_rashod}}</td>
         <td>{{rows.totals?.period_outcome}}</td>
@@ -125,7 +125,7 @@ const commonStore = useCommonStore()
 const columns = [
   { name: 'username', align: 'left',  label: 'ФИО', field: row => row.user.fio ,  sortable: true},
   { name: 'middle_logins_mark', align: 'left',  label: 'Период', field:row=>row.days_in_period ,  sortable: true},
-  { name: 'middle_task_mark', align: 'left',  label: 'ЗП в день', field: row => row.daily_rashod ,  sortable: true},
+  { name: 'middle_task_mark', align: 'left',  label: 'ЗП в день', field: row => row.daily_payment ,  sortable: true},
   { name: 'middle_forms_mark', align: 'left',  label: 'ЗП за период', field: row => row.period_income ,  sortable: true},
   { name: 'middle_forms_mark', align: 'left',  label: 'Расходы в день', field: row => row.daily_rashod ,  sortable: true},
   { name: 'middle_forms_mark', align: 'left',  label: 'Расходы за период', field: row => row.period_outcome ,  sortable: true},

@@ -103,7 +103,7 @@
               <q-badge color="negative" v-else-if="col.value===3" label="Высокий"/>
 
               </span>
-            <p class="no-margin ellipsis" style="max-width: 300px" v-else>{{ col.value }}</p>
+            <p class="no-margin " style="max-width: 300px" v-else>{{ col.value }}</p>
           </q-td>
           <q-td auto-width>
             <div class="q-gutter-md">
@@ -118,9 +118,11 @@
             <p>{{props.row.task}}</p>
             <div v-if="props.row.is_done">
               <p class="text-bold q-mb-sm">Результат выполнения задачи</p>
-              <div style="height: 80px; overflow-y: auto; width: 80%" >
-                <p style="white-space: break-spaces">{{props.row.result}}</p>
-              </div>
+              <q-input readonly class="q-mb-md" v-model="props.row.result" dense type="textarea" outlined/>
+<!--              <div style="height: 80px; overflow-y: auto; width: 80%" >-->
+<!--                <p style="white-space: break-spaces">{{props.row.result}}</p>-->
+<!--                -->
+<!--              </div>-->
 
               <p class="text-bold q-mb-sm">Оценка выполнения задачи</p>
               <q-rating
@@ -260,14 +262,30 @@ const initialPagination= {
 const columns = [
   { name: 'id', align: 'left',  label: 'ID', field: row => row.id ,  sortable: true},
   { name: 'priority', align: 'left',  label: 'Приоритет', field: row => row.priority ,  sortable: true},
-  { name: 'user', align: 'left',  label: 'Пользователь', field: row => row.user?.fio ,  sortable: true},
-  { name: 'task', align: 'left',  label: 'Задача', field: row => row.task ,  sortable: true},
-  { name: 'is_done', align: 'left',  label: 'Выполнено', field: row => row.is_done ,  sortable: true},
-  { name: 'is_repeatable', align: 'left',  label: 'Ежедневная', field: row => row.is_repeatable ,  sortable: true},
+  { name: 'user', align: 'left', style: 'min-width: 100px; max-width: 200px; white-space: normal;',  label: 'Пользователь', field: row => row.user?.fio ,  sortable: true},
+  { name: 'task', align: 'left', style: 'min-width: 100px; max-width: 200px; white-space: normal;', label: 'Задача', field: row => row.task ,  sortable: true},
+  { name: 'is_done', align: 'left', style: 'min-width: 50px; max-width: 50px; white-space: normal;',  label: 'Выполнено', field: row => row.is_done ,  sortable: true},
+  { name: 'is_repeatable', align: 'left',  label: 'Ежед.', field: row => row.is_repeatable ,  sortable: true},
   { name: 'dead_line', align: 'left',  label: 'Дата', field: row => new Date(row.dead_line_date).toLocaleDateString(),  sortable: true},
-  { name: 'dead_line_time', align: 'left',  label: 'Время', field: row => row.dead_line_time,  sortable: true},
+  { name: 'dead_line_time', align: 'left',  label: 'Время вып.',
+    field: row => {
+      if (row.is_repeatable ) return '-';
+      if (!row.created || !row.done_date) return 'Нет данных';
+      const createdAt = new Date(row.created);
+      const doneDate = new Date(row.done_date);
+      const differenceInMs = doneDate - createdAt;
+
+      // Переводим миллисекунды в часы и минуты
+      const totalMinutes = Math.floor(differenceInMs / (1000 * 60));
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+
+      return `${hours}ч ${minutes}мин`;
+    },
+    sortable: true
+  },
   { name: 'task_value', align: 'left',  label: 'Оценка', field: row => row.task_value ? row.task_value : 'Нет',  sortable: true},
-  { name: 'user_comment', align: 'left',  label: 'Обратная связь', field: row => row.user_comment ? row.user_comment : 'Нет',  sortable: true},
+  { name: 'user_comment', align: 'left',  label: 'Обр. связь', field: row => row.user_comment ? row.user_comment : 'Нет',  sortable: true},
 ]
 
 onBeforeMount(async ()=>{
