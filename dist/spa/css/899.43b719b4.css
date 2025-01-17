@@ -1,0 +1,1 @@
+.dash-grid{grid-gap:16px;display:grid;grid-template-columns:1fr 3fr}.dash-grid.no-tasks{grid-template-columns:1fr}.inner-grid{grid-gap:16px;display:flex;flex-direction:column;height:-moz-fit-content;height:fit-content}
