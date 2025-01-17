@@ -5,7 +5,7 @@
 
     <div class="row " :class="{'no-tasks':tasks.length===0}">
 
-      <div v-if="tasks.length>0" class="col-9 q-pr-md">
+      <div v-if="tasks.length>0"  class="col-9 q-pr-md">
         <q-card>
           <q-card-section >
             Задач на сегодня {{tasks.length}}
@@ -36,7 +36,7 @@
         </q-card>
       </div>
 
-      <div class="col-3 inner-grid">
+      <div class="col-3 inner-grid" :class="{'col-6':tasks.length===0}">
 
 <!--      <div v-if="user?.role.id===1" @click="$router.push('/catalog/clients')" class=" cursor-pointer">-->
 <!--        <q-card>-->
