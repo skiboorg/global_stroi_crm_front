@@ -83,7 +83,7 @@
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
            <p class="text-bold q-mb-sm">Задача: </p>
-            <p>{{props.row.task}}</p>
+            <p style="white-space: break-spaces">{{props.row.task}}</p>
             <p class="text-bold q-mb-sm">Результат выполнения задачи</p>
             <q-input  class="q-mb-md" v-model="props.row.result" dense type="textarea" outlined/>
             <q-file v-if="!props.row.is_done" class="q-mb-md" v-model="props.row.file" dense outlined label="Приложите файл, если требуется"/>
@@ -183,9 +183,9 @@ const columns = [
   { name: 'id', align: 'left',  label: 'ID', field: row => row.id ,  sortable: true},
   { name: 'priority', align: 'left',  label: 'Приоритет', field: row => row.priority ,  sortable: true},
   { name: 'user', align: 'left',  label: 'Пользователь', field: row => row.user.fio ,  sortable: true},
-  { name: 'task', align: 'left',  label: 'Задача', field: row => row.task ,  sortable: true},
+  { name: 'task', align: 'left', style: 'min-width: 100px; max-width: 200px; white-space: normal;', label: 'Задача', field: row => row.task ,  sortable: true},
   { name: 'is_done', align: 'left',  label: 'Выполнено', field: row => row.is_done ,  sortable: true},
-  { name: 'is_repeatable', align: 'left',  label: 'Ежедневная', field: row => row.is_repeatable ,  sortable: true},
+  { name: 'is_repeatable', align: 'left',  label: 'Ежедн.', field: row => row.is_repeatable ,  sortable: true},
   { name: 'dead_line_date', align: 'left',  label: 'Выполнить до', field: row => `${new Date(row.dead_line_date).toLocaleDateString()} ${row.dead_line_time}`,  sortable: true},
   { name: 'task_value', align: 'left',  label: 'Оценка', field: row => row.task_value ? row.task_value : 'Нет',  sortable: true},
   { name: 'dead_line_time', align: 'left',  label: 'Время вып.',

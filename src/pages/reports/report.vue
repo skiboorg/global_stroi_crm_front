@@ -145,7 +145,7 @@
       </tr>
       <tr>
         <td style="width: 50%" >Среднее время выполнения задач</td>
-        <td style="width: 25%" class="text-bold">{{time_avg.averageTime}} ч</td>
+        <td style="width: 25%" class="text-bold">{{time_avg.averageTime}}</td>
         <td style="width: 25%" class="text-bold">-</td>
       </tr>
 
@@ -195,7 +195,7 @@
         <td style="width: 20%" class="text-bold">{{data.period_outcome}}</td>
       </tr>
     </table>
-{{time_avg}}
+
   </q-page>
 </template>
 <script setup>
@@ -305,24 +305,37 @@ const getData = async () => {
 
 // Среднее время выполнения для задач с is_repeatable: true
   const repeatableTasks = tasks.filter(task => !task.is_repeatable && task.is_done);
-  console.log(`repeatableTasks задач: ${repeatableTasks}`);
-  const averageTime = repeatableTasks.length > 0
-    ? repeatableTasks.reduce((total, task) => {
-    const start = new Date(task.created).getTime();
-    const end = new Date(task.done_date).getTime();
-    return total + (end - start) / (1000 * 60); // Время выполнения в минутах
-  }, 0) / repeatableTasks.length
-    : 0;
+  let totalTime = 0; // Общая сумма времени выполнения
+  let counter = 0;     // Количество корректных задач
+
+  for (let task of repeatableTasks) {
+    const start = new Date(task.created).getTime(); // Начальное время
+    const end = new Date(task.done_date).getTime(); // Конечное время
+
+    // Проверяем корректность данных
+    if (!isNaN(start) && !isNaN(end) && end > start) {
+      totalTime += (end - start) / (1000 * 60); // Добавляем время в минутах
+      counter += 1; // Учитываем задачу
+    }
+  }
+
+// Вычисляем среднее время
+  const averageTimeInMinutes = counter > 0 ? totalTime / counter : 0;
+
+// Переводим в часы и минуты
+  const averageHours = Math.floor(averageTimeInMinutes / 60); // Целые часы
+  const averageMinutes = Math.round(averageTimeInMinutes % 60); // Оставшиеся минуты
+  console.log(`Среднее время выполнения повторяемых задач: ${averageHours} ч ${averageMinutes} м`);
 
   console.log(`Всего задач: ${totalTasks}`);
   console.log(`Выполнено: ${doneTasks}`);
   console.log(`Невыполнено: ${pendingTasks}`);
-  console.log(`Среднее вяемых задач: ${parseFloat(averageTime / 60).toFixed(2)}`);
+  console.log(`Среднее вяемых задач: ${parseFloat(averageTimeInMinutes).toFixed(2)}`);
   time_avg.value={
     total: totalTasks,
     done: doneTasks,
     pending: pendingTasks,
-    averageTime: parseFloat(averageTime / 60).toFixed(2),
+    averageTime: `${averageHours} ч ${averageMinutes} м`,
   }
 
 }

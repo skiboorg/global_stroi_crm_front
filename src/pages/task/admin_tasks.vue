@@ -103,7 +103,7 @@
               <q-badge color="negative" v-else-if="col.value===3" label="Высокий"/>
 
               </span>
-            <p class="no-margin " style="max-width: 300px" v-else>{{ col.value }}</p>
+            <p class="no-margin ellipsis" style="max-width: 300px" v-else>{{ col.value }}</p>
           </q-td>
           <q-td auto-width>
             <div class="q-gutter-md">
@@ -115,7 +115,7 @@
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
            <p class="text-bold q-mb-sm">Задача:</p>
-            <p>{{props.row.task}}</p>
+            <p style="white-space: break-spaces">{{props.row.task}}</p>
             <div v-if="props.row.is_done">
               <p class="text-bold q-mb-sm">Результат выполнения задачи</p>
               <q-input readonly class="q-mb-md" v-model="props.row.result" dense type="textarea" outlined/>
