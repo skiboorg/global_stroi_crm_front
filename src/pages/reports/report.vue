@@ -124,6 +124,32 @@
         </q-tr>
       </template>
     </q-table>
+    <table class="info-table full-width q-mb-lg">
+      <tr>
+        <td style="width: 50%" >Всего задач</td>
+        <td style="width: 25%" class="text-bold">{{time_avg.total}}</td>
+        <td style="width: 25%" class="text-bold">100%</td>
+      </tr>
+
+
+
+      <tr>
+        <td style="width: 50%" >Выполнено</td>
+        <td style="width: 25%" class="text-bold">{{time_avg.done}}</td>
+        <td style="width: 25%" class="text-bold">{{(parseFloat(time_avg.done/ time_avg.total) * 100).toFixed(2)}}%</td>
+      </tr>
+      <tr>
+        <td style="width: 50%" >Не выполнено</td>
+        <td style="width: 25%" class="text-bold">{{time_avg.pending}}</td>
+        <td style="width: 25%" class="text-bold">{{(parseFloat(time_avg.pending/ time_avg.total) * 100).toFixed(2)}}%</td>
+      </tr>
+      <tr>
+        <td style="width: 50%" >Среднее время выполнения задач</td>
+        <td style="width: 25%" class="text-bold">{{time_avg.averageTime}} ч</td>
+        <td style="width: 25%" class="text-bold">-</td>
+      </tr>
+
+    </table>
     <div v-if="data.form_result" class="q-mb-lg">
       <p class=" text-h6 text-bold">Операционные показатели {{data.form_rate}}</p>
       <table  class="info-table full-width">
@@ -169,7 +195,7 @@
         <td style="width: 20%" class="text-bold">{{data.period_outcome}}</td>
       </tr>
     </table>
-
+{{time_avg}}
   </q-page>
 </template>
 <script setup>
@@ -193,6 +219,7 @@ const route = useRoute()
 const differenceInDays = ref(0)
 const data = ref([])
 const query_string = ref('')
+const time_avg = ref({})
 
 const initialPagination= {
   sortBy: 'desc',
@@ -269,6 +296,34 @@ const getData = async () => {
   }
 
   temp > 0 ? taskMiddle.value = parseFloat(temp/count).toFixed(0) : taskMiddle.value=0
+
+  let tasks = data.value.tasks
+
+  const totalTasks = tasks.length;
+  const doneTasks = tasks.filter(task => task.is_done).length;
+  const pendingTasks = totalTasks - doneTasks;
+
+// Среднее время выполнения для задач с is_repeatable: true
+  const repeatableTasks = tasks.filter(task => !task.is_repeatable && task.is_done);
+  console.log(`repeatableTasks задач: ${repeatableTasks}`);
+  const averageTime = repeatableTasks.length > 0
+    ? repeatableTasks.reduce((total, task) => {
+    const start = new Date(task.created).getTime();
+    const end = new Date(task.done_date).getTime();
+    return total + (end - start) / (1000 * 60); // Время выполнения в минутах
+  }, 0) / repeatableTasks.length
+    : 0;
+
+  console.log(`Всего задач: ${totalTasks}`);
+  console.log(`Выполнено: ${doneTasks}`);
+  console.log(`Невыполнено: ${pendingTasks}`);
+  console.log(`Среднее вяемых задач: ${parseFloat(averageTime / 60).toFixed(2)}`);
+  time_avg.value={
+    total: totalTasks,
+    done: doneTasks,
+    pending: pendingTasks,
+    averageTime: parseFloat(averageTime / 60).toFixed(2),
+  }
 
 }
 
